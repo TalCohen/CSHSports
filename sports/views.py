@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 import time
 from datetime import date
 
+#returns a webpage with all of the information about player based on the userid
 def playerdetails(request, user_id):
     p = get_object_or_404(Player, pk=user_id)
     teamList = p.team.all()
