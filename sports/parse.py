@@ -80,10 +80,19 @@ def getMatchups(soup, _cshTeam, url):
         teams = teamSchedule.find_all("tr")
         year = overall.get_text()[1:5]
         print(year)
+        endofyear = False
         for i in range(len(teams)//2):
             match = teams[counter].find_all("td")
             _date = match[0].get_text() + " " + year
+            if _date.split(" ")[1] == "Dec":
+                endofyear = True
+            if endofyear == True and _date.split(" ")[1] != "Dec":
+                print("next year not december")
+                print(int(_date.split(" ")[3])+1)
+                newyear = str(int(_date.split(" ")[3])+1)
+                _date = match[0].get_text() + " " + newyear
             print(_date)
+            print(endofyear)
             opponent = match[1].get_text().split("  ")
             _enemyTeam = opponent[1]
             loc = opponent[0] #gets whether it is VS or @
