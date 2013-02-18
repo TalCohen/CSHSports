@@ -1,0 +1,9 @@
+{% if latest_player_list %}
+    <ul>
+    {% for player in latest_player_list %}
+        <li><a href="/player/{{ player.key }}/">{{ player.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No players are available.</p>
+{% endif %}

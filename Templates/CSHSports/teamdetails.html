@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<!-- <meta http-equiv="refresh" content="5"> -->
+	<head>
+		<link type="text/css" rel="stylesheet" href="/static/main.css" />
+		<link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
+		<title>
+		    {{team.name}}
+		</title>
+	</head>
+	<body>
+		<div id="container">
+            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+			<div id="navbg">
+				<ul id="nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="second.html">Second</a></li>
+					<li><a href="third.html">Third</a></li>
+					<li><a href="fourth.html">Fourth</a></li>
+					<li><a href="fifth.html">Fifth</a></li>
+				</ul>
+			</div>
+		
+
+            <div class="player">
+                <img src="{{team.picture}}"/>
+				<div class="name">
+                    <h3>{{team.name}}</h3>
+                    <p class="score">{{team.sport}}</p>
+                    <p class="wlt" title="W - L - T">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
+				</div>
+				<div class="nextgame">
+					<a href="schedule1.html">
+                        <p class="next">Next Game:</p>
+                        {% if matchup %}
+                        <p class="upcoming">{{matchup.date}}</p>
+                        <p class="upcoming">{{matchup.upcoming}}</p>
+                        {% else %}
+                        <p class="upcoming"><br></p>
+                        <p class="upcoming">No Upcoming Games</p>
+                        {% endif %}
+					</a>
+				</div>
+			</div>
+
+
+
+
+            <div class="roster side1">
+                {% for player in side1 %}
+				<div class="person">
+                    <a href="/player/{{player.id}}"><img src={{player.picture}} />
+					<div>
+                        <p>{{player.name}}</p>
+                        <p>{{player.gender}}</p>
+                        {% if player.iscaptain %}
+                        <p>Captain</p>
+                        {% endif %}
+					</div>
+					</a>
+                </div>
+                {% endfor %} 
+            </div>
+            <div class="roster side2">
+                {% for player in side2 %}
+                <div class="person">
+                    <a href="/player/{{player.id}}"><img src={{player.picture}} />
+                    <div>
+                        <p>{{player.name}}</p>
+                        <p>{{player.gender}}</p>
+                        {% if player.iscaptain %}
+                        <p>Captain</p>
+                        {% endif %}
+                    </div>
+                    </a>
+                </div>
+                {% endfor %}
+			</div>
+
+
+            <div id="footer">
+                <hr>
+				<p>Created by Tal Cohen</p>
+			</div>
+			<div id="format">
+			</div>
+		</div>
+	</body>
+</html>

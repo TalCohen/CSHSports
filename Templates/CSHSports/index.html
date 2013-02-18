@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<!-- <meta http-equiv="refresh" content="5"> -->
+	<head>
+		<link type="text/css" rel="stylesheet" href="/static/main.css" />
+		<link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
+		<title>
+			CSH Sports
+		</title>
+	</head>
+	<body>
+        <div id="container">
+            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+			<div id="navbg">
+				<ul id="nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="second.html">Second</a></li>
+					<li><a href="third.html">Third</a></li>
+					<li><a href="fourth.html">Fourth</a></li>
+					<li><a href="fifth.html">Fifth</a></li>
+				</ul>
+            </div>
+            {% for team in teamList %} 
+            <a href="team/{{team.id}}" class="sport main">
+                <div id="{{team.sport}}">
+                    <h3>{{team.name}}</h3>
+                    <img src="{{team.picture}}"/>
+                    <p class="score">{{team.sport}}</p>
+                    <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
+				</div>
+            </a>
+            {% endfor %}
+
+            <div id="footer">
+                <hr>
+				<p>Created by Tal Cohen</p>
+			</div>
+			<div id="format">
+			</div>
+		</div>
+	</body>
+</html>

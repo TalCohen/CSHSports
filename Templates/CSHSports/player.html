@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<!-- <meta http-equiv="refresh" content="5"> -->
+	<head>
+		<link type="text/css" rel="stylesheet" href="/static/main.css" />
+		<link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
+		<title>
+            {{player.name}}
+		</title>
+	</head>
+	<body>
+		<div id="container">
+            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+			<div id="navbg">
+				<ul id="nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="second.html">Second</a></li>
+					<li><a href="third.html">Third</a></li>
+					<li><a href="fourth.html">Fourth</a></li>
+					<li><a href="fifth.html">Fifth</a></li>
+				</ul>
+			</div>
+
+
+
+
+
+
+			<div class="player">
+                <img src="{{player.picture}}"/>
+				<div id="name">
+                    <h3>{{player.name}}</h3>
+                    <p>{{player.gender}}</p>
+				</div>
+			</div>
+
+            
+            <!--If they have one team-->
+            {% for team in teams %}
+            {%if length == 1 %}
+            <div class="sport width1">
+            {% elif length == 2 %}
+            <div class="sport width2">
+            {% else %}
+            <div class="sport width3">
+            {% endif %}
+                <a href="/team/{{team.id}}">
+					<div id="soccer">
+                        <h3>{{team.name}}</h3>
+                        <img src="{{team.picture}}"/>
+                        <p class="score">{{team.sport}}</p>
+                        <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.wins}}</p>
+                        <p class="next">Next Game:</p>
+                        {% if team.nextGame %}
+                        <p class="upcoming">{{team.nextGame.date}}</p>
+                        <p class="upcoming">{{team.nextGame.upcoming}}</p>
+                        {% else %}
+                        <p class="upcoming"><br></p>
+                        <p class="upcoming">No Upcoming Games</p>
+                        {% endif %}
+					</div>
+				</a>
+            </div>
+            {% endfor %}
+
+
+		<!-- 	<div class="player">
+				<h3>John Doe</h3>
+				<img src="player1.png"/>
+				<p>Male</p>
+				<p id="team">Teams:</p>
+				<div class="teams">
+					<p>Soccer</p>
+					<p class="score">0 - 0 - 0</p>
+					<p class="wlt">W - L - T</p>
+				</div>
+				<div class="teams">
+					<p>Broomball</p>
+					<p class="score">0 - 0 - 0</p>
+					<p class="wlt">W - L - T</p>
+				</div>
+				<div class="upcoming">
+					<p>Soccer</p>
+					<p>4:00 PM</p>
+					<p>Saturday, January 12th</p>
+				</div>
+				<div class="upcoming">
+					<p>Broomball</p>
+					<p>8:30 PM</p>
+					<p>Sunday, January 13th</p>
+				</div>
+			</div> -->
+
+            <div id="footer">
+                <hr>
+				<p>Created by Tal Cohen</p>
+			</div>
+			<div id="format">
+			</div>
+		</div>
+	</body>
+</html>
