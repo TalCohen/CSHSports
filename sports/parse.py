@@ -308,23 +308,28 @@ def getTeamsOn(link):
     sport = li.find_next("a").get_text()
 """    
 
-
-def main():
-    br = mechrequest() #Sets br to the browser that logs in
-    broomball = "http://www.imleagues.com/School/Team/Home.aspx?Team=57a774ebc1e24dafa4c98c1fea9fcbd0"
-    soccer = "http://www.imleagues.com/School/Team/Home.aspx?Team=2ea5850d537a423eb5a086a72d0ac16a"
-    volleyball = "http://www.imleagues.com/School/Team/Home.aspx?Team=1e89a62bdcda460d97acb64179093572"
-    cshTeamList=[broomball, soccer, volleyball]
-    for team in cshTeamList:
-        br.open(team) #Opens the url in the browser
-        html = br.response().read() #Sets HTML to the read in source code
-        soup = BeautifulSoup(html) #Sets soup to use beautifulsoup with html
-        _cshTeam = getName(soup) #Sets cshTeam to the name of the CSH team returned in getName
-        getMatchups(soup, _cshTeam, team)
-        #rosterLink = getRosterLink(soup)
-        getRoster(soup, team)
+def getData(url):
+    br = mechrequest()
+    br.open(url) #Opens the url in the browser
+    html = br.response().read() #Sets HTML to the read in source code
+    soup = BeautifulSoup(html) #Sets soup to use beautifulsoup with html
+    _cshTeam = getName(soup) #Sets cshTeam to the name of the CSH team returned in getName
+    getMatchups(soup, _cshTeam, url)
+    getRoster(soup, url)
 
 
+
+def update():
+    urlList = [team.link for team in Teams.objects.filter(iscsh=True)]
+    for url in urlList:
+        getData(url)
+    #br = mechrequest() #Sets br to the browser that logs in
+    #broomball = "http://www.imleagues.com/School/Team/Home.aspx?Team=57a774ebc1e24dafa4c98c1fea9fcbd0"
+    #soccer = "http://www.imleagues.com/School/Team/Home.aspx?Team=2ea5850d537a423eb5a086a72d0ac16a"
+    #volleyball = "http://www.imleagues.com/School/Team/Home.aspx?Team=1e89a62bdcda460d97acb64179093572"
+    #cshTeamList=[broomball, soccer, volleyball]
+    #for team in cshTeamList:
+    #    getData(team)
 
 #if dont have team, make a new team. otherwise proceed to matchup table. make foreign key
 #match to whatever team they are. Hold on to it. Have it on hand.

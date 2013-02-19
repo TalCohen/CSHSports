@@ -423,6 +423,13 @@ a.sport:hover div {
     margin-left: 90px;
 }
 
+#form {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/
 /*Charcoal:#222222*/

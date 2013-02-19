@@ -37,3 +37,7 @@ class Matchup(models.Model):
     upcoming = models.CharField(max_length=50, default='')
     outcome = models.CharField(max_length=1, default='')
     date = models.CharField(max_length=50)
+
+class Authenticate(models.Model):
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=100)

@@ -1,4 +1,4 @@
-from sports.models import Team, Player, Matchup
+from sports.models import Team, Player, Matchup, Authenticate
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
@@ -6,6 +6,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 import time
 from datetime import date
+import sha
 
 #returns a webpage with all of the information about player based on the userid
 def playerdetails(request, user_id):
@@ -62,6 +63,17 @@ def getUpcoming(matchupList):
         if dates[0] >= timeToday:
             return dates[1]
     return None
+
+
+def addteams(request):
+    return render_to_response('CSHSports/addteams.html', context_instance=RequestContext(request))
+
+def maketeams(request):
+    a = Authenticate.objects.get(pk=1)
+    if(a.password == sha.new(request.POST['pwd']).hexdigest()):
+        return
+    else:
+        return HttpResponse("You did not")
 
 
 def fixedSizePlayer(name):

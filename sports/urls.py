@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^$', 'sports.views.allteams'),
     url(r'^team/(?P<team_id>\d+)/$', 'sports.views.teamdetails'),
     url(r'^team/(?P<team_id>\d+)/schedule/$', 'sports.views.matchups'),
-
+    url(r'^addteams/$', 'sports.views.addteams'),
+    url(r'^addteams/make/$', 'sports.views.maketeams'),
 )
