@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<!-- <meta http-equiv="refresh" content="5"> -->
+    <head>
+        <link type="text/css" rel="stylesheet" href="/static/main.css" />
+        <link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
+        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
+        <title>
+            {{team.name}}'s Schedule
+        </title>
+    </head>
+    <body>
+        <div id="container">
+            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+            <div id="navbg">
+                <ul id="nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="second.html">Second</a></li>
+                    <li><a href="third.html">Third</a></li>
+                    <li><a href="fourth.html">Fourth</a></li>
+                    <li><a href="fifth.html">Fifth</a></li>
+                </ul>
+            </div>
+
+
+            <div class="player">
+                <img src="{{team.picture}}"/>
+                <div class="name">
+                    <h3>{{team.name}} {% if team.rank %} ({{team.rank}}) {% endif%}</h3>
+                    <p class="score">{{team.sport}}</p>
+                    <p class="wlt" title="W - L - T">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
+                </div>
+                <div class="nextgame">
+                    <a href="schedule1.html">
+                        <p class="next">Next Game:</p>
+                        {% if matchupnext %}
+                        <p class="upcoming">{{matchupnext.date}}</p>
+                        <p class="upcoming">{{matchupnext.upcoming}}</p>
+                        {% else %}
+                        <p class="upcoming"><br></p>
+                        <p class="upcoming">No Upcoming Games</p>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="matchupheader">
+                <h2>Schedule</h2>
+                <h3>{{team.sport}} {{year}}</h3>
+            </div>
+
+
+            {% for matchup in matchups %}
+            {% if matchup.outcome %}
+            <div class="player match happened">
+                <img src={{matchup.enemy.picture}}>
+                <div class="name">
+                    <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif%}</h3>
+                    <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
+                </div>
+                <div class="nextgame">
+                    <a href="schedule1.html">
+                        <p class="outcome">{{matchup.outcome}}</p>
+                        <p class="outcomescore words">Score</p>
+                        <p class="outcomescore numbers">{{matchup.cshScore}} - {{matchup.enemyScore}}</p>
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="player match">
+                <img src={{matchup.enemy.picture}}>
+                <div class="name">
+                    <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif %}</h3>
+                    <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
+                </div>
+                <div class="nextgame">
+                    <a href="schedule1.html">
+                        <p class="next">Date:</p>
+                        <p class="upcoming">{{matchup.upcoming}}</p>
+                        <p class="upcoming"></p>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+            <div id="footer">
+                <hr>
+                <p>Created by Tal Cohen</p>
+            </div>
+            <div id="format">
+            </div>
+        </div>
+    </body>
+</html>

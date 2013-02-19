@@ -57,6 +57,15 @@ def getMatchups(soup, _cshTeam, url):
     csh_picture = header.find_next("img").get("src")
     print(csh_picture)
     print("csh score:", _csh_wins, _csh_losses, _csh_ties)
+    #standings = soup.find("div", { "class" : "right_box_content" }).find_all("tr")[1:]
+    #for standingteam in standings:
+        #index = 1
+        #standingname = standingteam.find_all("td")[0].get_text().strip()
+        #standingscore = standingteam.find_all("td")[1].get_text()
+        #print(standingname, standingscore)
+        #if standingname == _enemyTeam and standingscore == _wins + "-" + _losses + "-" + _ties:
+            #_rank = index
+        #index += 1
     try:
         cshTeam = Team.objects.get(link=url)
     except:
@@ -68,7 +77,7 @@ def getMatchups(soup, _cshTeam, url):
         cshTeam.picture = csh_picture
         cshTeam.save()
     else:
-        cshTeam = Team(link=url, sport=_sport, name=_cshTeam, wins=_csh_wins, losses=_csh_losses, ties=_csh_ties, picture=csh_picture, iscsh=True)
+        cshTeam = Team(link=url, sport=_sport, name=_cshTeam, wins=_csh_wins, losses=_csh_losses, ties=_csh_ties, picture=csh_picture, rank=0, iscsh=True)
         cshTeam.save()
     overall = soup.find(id="ctl00_ContentPlaceHolder2_ucTeamRelated_pnlTeamSchedule")
     teamSchedule = overall.find_next("tbody")
@@ -112,6 +121,14 @@ def getMatchups(soup, _cshTeam, url):
             _wins = record[0]
             _losses = record[1]
             _ties = record[2]
+            #for standingteam in standings:
+                #index = 1
+                #standingname = standingteam.find_all("td")[0].get_text().strip()
+                #standingscore = standingteam.find_all("td")[1].get_text()
+                #print(standingname, standingscore)
+                #if standingname == _enemyTeam and standingscore == _wins + "-" + _losses + "-" + _ties:
+                    #_rank = index
+                #index += 1
             enemyUrl = match[1].find_next("a").get("href")
             print(enemyUrl)
             pictureLink = match[1].find_next("img").get("src")
@@ -136,9 +153,11 @@ def getMatchups(soup, _cshTeam, url):
                 enemyTeam.losses = _losses
                 enemyTeam.ties = _ties
                 enemyTeam.picture =_picture
+                enemyTeam.rank = getRank(soup, enemyTeam.name, _wins, _losses, _ties) 
                 enemyTeam.save()
             else:
-                enemyTeam = Team(link=enemyUrl, sport=_sport, name=_enemyTeam, wins=_wins, losses=_losses, ties=_ties, picture=_picture, iscsh=False)
+                print("i error here")
+                enemyTeam = Team(link=enemyUrl, sport=_sport, name=_enemyTeam, wins=_wins, losses=_losses, ties=_ties, picture=_picture, rank=getRank(soup, _enemyTeam, _wins, _losses, _ties), iscsh=False)
                 enemyTeam.save()
             try:
                 happened = cshTeam.CSH.get(enemy = enemyTeam)
@@ -169,6 +188,7 @@ def getMatchups(soup, _cshTeam, url):
     cshTeam.wins = _csh_wins
     cshTeam.losses = _csh_losses
     cshTeam.ties = _csh_ties
+    cshTeam.rank = getRank(soup, cshTeam.name, _csh_wins, _csh_losses, _csh_ties)
     cshTeam.save()
         
 #def getRosterLink(soup):
@@ -180,6 +200,20 @@ def getMatchups(soup, _cshTeam, url):
 #    rosterLink = "https://www.imleagues.com/School/Team/" + link
 #    print(rosterLink)
 #    return rosterLink
+
+def getRank(soup, name, wins, losses, ties):
+    standings = soup.find("div", { "class" : "right_box_content" }).find_all("tr")[1:]
+    rank = 1
+    for standingteam in standings:
+        standingname = standingteam.find_all("td")[0].get_text().strip()
+        standingscore = standingteam.find_all("td")[1].get_text()
+        print(standingname, standingscore, "checking the team", name, wins, losses, ties)
+        if standingname == name and standingscore == str(wins) + "-" + str(losses) + "-" + str(ties):
+            return rank
+        rank += 1
+    return None
+ 
+
 
 def getRoster(soup, url):
     mydivs = soup.find_all("div", { "class" : "popover-content" })[1] #Sets mydivs to the div containing the roster

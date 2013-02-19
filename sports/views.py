@@ -45,6 +45,12 @@ def teamdetails(request, team_id):
     infoDict = {'team': t, 'side1': side1, 'side2': side2, 'matchup':getUpcoming(matchupList)}
     return render_to_response('CSHSports/teamdetails.html', infoDict, context_instance=RequestContext(request))
 
+def matchups(request, team_id):
+    t = get_object_or_404(Team, pk=team_id)
+    matchupList = t.CSH.all()
+    infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3]}
+    return render_to_response('CSHSports/matchups.html', infoDict, context_instance=RequestContext(request))
+
 
 def getUpcoming(matchupList):
     timeSet = [(time.strptime(match.date,"%a, %b %d %Y"), match) for match in matchupList]
@@ -53,6 +59,7 @@ def getUpcoming(matchupList):
         if dates[0] >= timeToday:
             return dates[1]
     return None
+
 
 def fixedSizePlayer(name):
     if len(name) > 18:

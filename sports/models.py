@@ -18,6 +18,7 @@ class Team(models.Model):
     losses = models.IntegerField()
     ties = models.IntegerField()
     picture = models.CharField(max_length=250)
+    rank = models.IntegerField(null=True, blank=True)
     iscsh = models.BooleanField()
 
 class Player(models.Model):

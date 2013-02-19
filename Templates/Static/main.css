@@ -1,56 +1,56 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 html, body {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 #navbg {
-	background-color: #5ba215;
-	padding-top: 10px;
-	padding-bottom: 10px;
+    background-color: #5ba215;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #nav {
-	list-style-type: none;
-	margin: 0 auto;
-	width: 446px;
-/*	background-color: red;
-	uncomment when changing anything about nav bar
+    list-style-type: none;
+    margin: 0 auto;
+    width: 446px;
+/*  background-color: red;
+    uncomment when changing anything about nav bar
 */
 }
 
 #nav li {
-	display: inline;
+    display: inline;
 }
 
 #nav a {
-	color: white;
-	background-color: #222222;
-	text-decoration: none;
-	font-family: 'Oxygen', sans-serif;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	padding-left: 15px;
-	padding-right: 15px;
-	margin: 4px;
-	font-weight: bold;
+    color: white;
+    background-color: #222222;
+    text-decoration: none;
+    font-family: 'Oxygen', sans-serif;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 4px;
+    font-weight: bold;
 }
 
 #nav a:hover {
-	color: #5ba215;
+    color: #5ba215;
 }
 
 #header {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	font-family: 'Domine', serif;
-	text-align: center;
-	color: #498211;
-	font-size: 300%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-family: 'Domine', serif;
+    text-align: center;
+    color: #498211;
+    font-size: 300%;
 }
 
 #headerlink {
@@ -58,9 +58,9 @@ html, body {
 }
 
 #footer {
-	clear: both;
-	width: 100%;
-	padding-top: 0px;
+    clear: both;
+    width: 100%;
+    padding-top: 0px;
 }
 
 #footer hr {
@@ -69,272 +69,350 @@ html, body {
 }
 
 #footer p {
-	text-align: center;
+    text-align: center;
     font-family: 'Oxygen', sans-serif;
 }
 
 #container {
-	margin: 0 auto;
-	width: 1200px;
-	background: white;
-	min-height: 100%;
+    margin: 0 auto;
+    width: 1200px;
+    background: white;
+    min-height: 100%;
 
 
 }
 
 body { 
-	background-image: url('background.png');
+    background-image: url('background.png');
 }
 
 .sport {
-	float: left;
-	/*background-color: #5ba215;*/
-	width: 25%;
-	height: 300px;
-	margin: 30px 30px 30px 60px;
-	text-align: center;
-	text-decoration: none;
+    float: left;
+    /*background-color: #5ba215;*/
+    width: 25%;
+    height: 300px;
+    margin: 30px 30px 30px 60px;
+    text-align: center;
+    text-decoration: none;
 }
 
 .sport h3 {
-	color: white;
-	font-size: 175%;
-	padding-top: 15px;
-	padding-bottom: 30px;
-	font-family: 'Domine', serif;
+    color: white;
+    font-size: 175%;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    font-family: 'Domine', serif;
 }
 
 .sport img {
-	width: 72px;
-	height: 72px;
+    width: 72px;
+    height: 72px;
     border-radius: 4px;
 }
 
 .sport .score {
-	color: white;
-	font-size: 200%;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	font-family: 'Oxygen', sans-serif;
-	font-weight: bold;
+    color: white;
+    font-size: 200%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-family: 'Oxygen', sans-serif;
+    font-weight: bold;
 }
 
 .sport .wlt {
-	color: white;
-	font-size: 200%;
-	font-family: 'Oxygen', sans-serif;
+    color: white;
+    font-size: 200%;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .sport .next {
-	color: white;
-	font-family: 'Oxygen', sans-serif;
-	font-size: 175%;
-	padding-top: 60px;
-	padding-bottom: 15px;
+    color: white;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 175%;
+    padding-top: 60px;
+    padding-bottom: 15px;
 }
 
 .sport .upcoming {
-	color: white;
-	font-family: 'Oxygen', sans-serif;
-	font-size: 250%;
+    color: white;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 250%;
 }
 
 .sport div{
-	background-color: #5ba215;
-	height: 100%
+    background-color: #5ba215;
+    height: 100%
 }
 
 a.sport:hover div {
-	background-color: #498211;
+    background-color: #498211;
 }
 
 .sport a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .sport div:hover {
-	background-color: #498211;
+    background-color: #498211;
 
 }
 
 #format {
-	float: none;
-	height: 1px;
-	width: 100%;
-	clear: both;
+    float: none;
+    height: 1px;
+    width: 100%;
+    clear: both;
 }
 
 .player {
-	height: 128px;
-	width: 100%;
-	padding-top: 30px;
-	margin-bottom: 60px;
+    height: 128px;
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: 60px;
 }
 
 .player img {
-	width: 128px;
-	height: 128px;
-	padding-left: 60px;
-	float: left;
+    width: 128px;
+    height: 128px;
+    margin-left: 60px;
+    float: left;
+    background-image: background.png;
 }
 
 .player .name {
-	float: left;
-	padding-left: 8px;
+    float: left;
+    padding-left: 8px;
 }
 
 .player .name h3 {
-	color: #222222;
-	font-size: 250%;
-	font-family: 'Domine', serif;
+    color: #222222;
+    font-size: 250%;
+    font-family: 'Domine', serif;
 }
 
 .player .name p {
-	color: #222222;
-	font-size: 175%;
-	font-family: 'Oxygen', sans-serif;
+    color: #222222;
+    font-size: 175%;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .player #name {
-	float: left;
-	padding-left: 8px;
+    float: left;
+    padding-left: 8px;
 }
 
 .player #name h3 {
-	color: #5ba215;
-	font-size: 350%;
-	font-family: 'Domine', serif;
+    color: #5ba215;
+    font-size: 350%;
+    font-family: 'Domine', serif;
 }
 
 .player #name p {
-	color: #222222;
-	font-size: 175%;
-	font-family: 'Oxygen', sans-serif;
+    color: #222222;
+    font-size: 175%;
+    font-family: 'Oxygen', sans-serif;
 }
 
+
+
 .width1 {
-	width: 90%;
-	height: 500px;
+    width: 90%;
+    height: 500px;
 }
 
 .width2 {
-	width: 495px;
-	height: 500px;
+    width: 495px;
+    height: 500px;
 }
 
 .width3 {
-	width: 300px;
-	height: 500px;
+    width: 300px;
+    height: 500px;
 }
 
 .width3 .next {
-	font-size: 150%;
+    font-size: 150%;
 }
 
 .width3 .upcoming {
-	font-size: 175%;
+    font-size: 175%;
 }
 
 .player .name .score {
-	color: #5ba215;
-	font-size: 250%;
-	font-family: 'Oxygen', sans-serif;
-	margin-top: -7px;
+    color: #5ba215;
+    font-size: 250%;
+    font-family: 'Oxygen', sans-serif;
+    margin-top: -7px;
 }
 
 .player .name .wlt {
-	font-size: 200%;
-	font-family: 'Oxygen', sans-serif;
+    font-size: 200%;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .player .nextgame {
-	color: #222222;
-	font-family: 'Oxygen', sans-serif;
-	float: right;
-	text-align: right;
-	margin-right: 60px;
-	margin-top: -10px;
+    color: #222222;
+    font-family: 'Oxygen', sans-serif;
+    float: right;
+    text-align: right;
+    margin-right: 60px;
+    margin-top: -10px;
 }
 
 .nextgame a {
-	text-decoration: none;
-	color: #222222;
+    text-decoration: none;
+    color: #222222;
 }
 
 .nextgame a:hover {
-	color: #498211;
+    color: #498211;
 }
 
 .nextgame .next {
-	font-size: 175%;
-	padding-top: 10px;
+    font-size: 175%;
+    padding-top: 10px;
 }
 
 .nextgame .upcoming {
-	font-size: 250%;
+    font-size: 250%;
+}
+
+.match {
+    width: 1080px;
+    margin-left: 60px;
+    margin-top: 30px;
+    padding-top: 0px;
+    background-color: #5ba215;
+}
+
+.happened{
+    background-color: #bbbbbb;
+}
+
+.match p {
+    color: white;
+}
+
+.match .name p {
+    color: white;
+}
+
+.match .name .wlt {
+    font-size: 250%;
+}
+
+.match .name h3 {
+    color: white;
+}
+
+.match .name .score {
+    color: white;
+}
+
+.match .nextgame {
+    margin-right: 30px;
+}
+
+.match img {
+    margin-left: 0px;
+}
+
+.match .upcoming {
+    font-size: 225%;
+}
+
+.match .outcome {
+    font-size: 400%;
+}
+
+.match .outcomescore {
+    font-size: 150%;
+}
+
+.match .words {
+    margin-top: -10px;
+}
+
+.match .numbers {
+    margin-right: 7px;
+}
+
+.matchupheader {
+    text-align: center;
+    color: #222222;
+    width: 100%;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.matchupheader h2 {
+    font-size: 300%;
+}
+
+.matchupheader h3 {
+    font-size: 200%;
 }
 
 .roster {
-	width: 495px;
-	float: left;
+    width: 495px;
+    float: left;
 }
 
 .roster a{
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .roster .person img {
-	float: left;
+    float: left;
     width: 100px;
     height: 100px;
 }
 
 .roster .person {
-	height: 100%;
-	float: left;
-	background-color: #5ba215;
-	width: 100%;
-	margin-bottom: 30px;
+    height: 100%;
+    float: left;
+    background-color: #5ba215;
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .roster div:hover {
-	background-color: #498211; 
+    background-color: #498211; 
 }
 
 .roster .person div {
-	height: 100px;
-	float: left;
-	color: white;
-	font-family: 'Oxygen', sans-serif;
-	font-size: 200%;
-	padding-left: 8px;
-	width: 383px;
+    height: 100px;
+    float: left;
+    color: white;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 200%;
+    padding-left: 8px;
+    width: 383px;
 }
 
 .roster .person div p:nth-child(1) {
-	font-size: 120%;
+    font-size: 120%;
 }
 
 .roster .person div p:nth-child(2) {
-	font-size: 75%;
+    font-size: 75%;
 }
 
 .roster .person div p:nth-child(3) {
-	font-size: 50%;
-	float: right;
-	color: white;
-	background-color: #222222;
-	padding: 5px 8px;
-	margin-right: -4px;
-	margin-top: -9px;
+    font-size: 50%;
+    float: right;
+    color: white;
+    background-color: #222222;
+    padding: 5px 8px;
+    margin-right: -4px;
+    margin-top: -9px;
 }
 
 .side1 {
-	margin-left: 60px;
+    margin-left: 60px;
 }
 
 .side2 {
-	margin-left: 90px;
+    margin-left: 90px;
 }
 
 
@@ -342,3 +420,4 @@ a.sport:hover div {
 /*Dark Green:#498211;*/
 /*Charcoal:#222222*/
 /*Gray:#bbbbbb*/
+

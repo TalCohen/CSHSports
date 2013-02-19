@@ -31,7 +31,7 @@
                     <p class="wlt" title="W - L - T">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
 				</div>
 				<div class="nextgame">
-					<a href="schedule1.html">
+                    <a href="/team/{{team.id}}/schedule">
                         <p class="next">Next Game:</p>
                         {% if matchup %}
                         <p class="upcoming">{{matchup.date}}</p>
