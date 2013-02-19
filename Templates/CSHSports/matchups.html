@@ -25,12 +25,14 @@
 
 
             <div class="player">
+                <a href="/team/{{team.id}}" id=teamlink>
                 <img src="{{team.picture}}"/>
                 <div class="name">
                     <h3>{{team.name}} {% if team.rank %} ({{team.rank}}) {% else %} (Disbanded) {% endif%}</h3>
                     <p class="score">{{team.sport}}</p>
                     <p class="wlt" title="W - L - T">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
                 </div>
+                </a>
                 <div class="nextgame">
                         <p class="next">Next Game:</p>
                         {% if matchupnext %}
