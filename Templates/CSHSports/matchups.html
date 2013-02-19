@@ -15,10 +15,11 @@
             <div id="navbg">
                 <ul id="nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="second.html">Second</a></li>
-                    <li><a href="third.html">Third</a></li>
-                    <li><a href="fourth.html">Fourth</a></li>
-                    <li><a href="fifth.html">Fifth</a></li>
+                    <li><a href="/">My Teams</a></li>
+                    {% for team in teamList %}
+                    <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                    {% endfor %}
+
                 </ul>
             </div>
 
@@ -26,12 +27,11 @@
             <div class="player">
                 <img src="{{team.picture}}"/>
                 <div class="name">
-                    <h3>{{team.name}} {% if team.rank %} ({{team.rank}}) {% endif%}</h3>
+                    <h3>{{team.name}} {% if team.rank %} ({{team.rank}}) {% else %} (Disbanded) {% endif%}</h3>
                     <p class="score">{{team.sport}}</p>
                     <p class="wlt" title="W - L - T">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
                 </div>
                 <div class="nextgame">
-                    <a href="schedule1.html">
                         <p class="next">Next Game:</p>
                         {% if matchupnext %}
                         <p class="upcoming">{{matchupnext.date}}</p>
@@ -40,7 +40,6 @@
                         <p class="upcoming"><br></p>
                         <p class="upcoming">No Upcoming Games</p>
                         {% endif %}
-                    </a>
                 </div>
             </div>
 
@@ -55,31 +54,29 @@
             {% if matchup.outcome %}
             <div class="player match happened">
                 <img src={{matchup.enemy.picture}}>
+                <div id="spacing"></div>
                 <div class="name">
                     <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif%}</h3>
                     <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
                 </div>
                 <div class="nextgame">
-                    <a href="schedule1.html">
                         <p class="outcome">{{matchup.outcome}}</p>
                         <p class="outcomescore words">Score</p>
                         <p class="outcomescore numbers">{{matchup.cshScore}} - {{matchup.enemyScore}}</p>
-                    </a>
                 </div>
             </div>
             {% else %}
             <div class="player match">
                 <img src={{matchup.enemy.picture}}>
+                <div id="spacing"></div>
                 <div class="name">
                     <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif %}</h3>
                     <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
                 </div>
                 <div class="nextgame">
-                    <a href="schedule1.html">
                         <p class="next">Date:</p>
                         <p class="upcoming">{{matchup.upcoming}}</p>
                         <p class="upcoming"></p>
-                    </a>
                 </div>
             </div>
             {% endif %}
@@ -96,7 +93,6 @@
 
 
             <div id="footer">
-                <hr>
                 <p>Created by Tal Cohen</p>
             </div>
             <div id="format">

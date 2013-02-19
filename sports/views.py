@@ -17,7 +17,8 @@ def playerdetails(request, user_id):
             team.name = fixedSizeTeam(team.name)
         matchupList = team.CSH.all()
         team.nextGame = getUpcoming(matchupList)
-    return render_to_response('CSHSports/player.html', {'player': p, 'teams': teamList, 'length': length}, context_instance=RequestContext(request))
+    teams = Team.objects.filter(iscsh=True)
+    return render_to_response('CSHSports/player.html', {'player': p, 'teams': teamList, 'length': length, 'teamList': teams}, context_instance=RequestContext(request))
 
 def allplayers(request):
     latest = Player.objects.all() 
@@ -42,13 +43,15 @@ def teamdetails(request, team_id):
             playerList.insert(0, playerList.pop(playerList.index(player)))
     side1 = playerList[::2]
     side2 = playerList[1::2]
-    infoDict = {'team': t, 'side1': side1, 'side2': side2, 'matchup':getUpcoming(matchupList)}
+    teams = Team.objects.filter(iscsh=True)
+    infoDict = {'team': t, 'side1': side1, 'side2': side2, 'matchup':getUpcoming(matchupList), 'teamList': teams}
     return render_to_response('CSHSports/teamdetails.html', infoDict, context_instance=RequestContext(request))
 
 def matchups(request, team_id):
     t = get_object_or_404(Team, pk=team_id)
     matchupList = t.CSH.all()
-    infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3]}
+    teams = Team.objects.filter(iscsh=True)
+    infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3], 'teamList': teams}
     return render_to_response('CSHSports/matchups.html', infoDict, context_instance=RequestContext(request))
 
 

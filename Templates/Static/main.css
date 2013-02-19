@@ -17,7 +17,8 @@ html, body {
 #nav {
     list-style-type: none;
     margin: 0 auto;
-    width: 446px;
+    width: 100%;
+    text-align:center;
 /*  background-color: red;
     uncomment when changing anything about nav bar
 */
@@ -60,12 +61,8 @@ html, body {
 #footer {
     clear: both;
     width: 100%;
-    padding-top: 0px;
-}
-
-#footer hr {
-    opacity: .3;
-    padding-bottom: 15px;
+    padding: 15px 0px;
+    border-top: 1px solid rgba(0,0,0,0.2);
 }
 
 #footer p {
@@ -176,7 +173,14 @@ a.sport:hover div {
     height: 128px;
     margin-left: 60px;
     float: left;
-    background-image: background.png;
+    background-color: #5ba215;
+}
+
+.player #spacing {
+    width: 7px;
+    height: 100%;
+    background-color: white;
+    float: left;
 }
 
 .player .name {
@@ -286,6 +290,10 @@ a.sport:hover div {
 }
 
 .happened{
+    background-color: #bbbbbb;
+}
+
+.happened img {
     background-color: #bbbbbb;
 }
 
@@ -414,7 +422,6 @@ a.sport:hover div {
 .side2 {
     margin-left: 90px;
 }
-
 
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/

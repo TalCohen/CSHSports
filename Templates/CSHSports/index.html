@@ -15,10 +15,10 @@
 			<div id="navbg">
 				<ul id="nav">
 					<li><a href="/">Home</a></li>
-					<li><a href="second.html">Second</a></li>
-					<li><a href="third.html">Third</a></li>
-					<li><a href="fourth.html">Fourth</a></li>
-					<li><a href="fifth.html">Fifth</a></li>
+                    <li><a href="/">My Teams</a></li>
+                    {% for team in teamList %}
+                    <li><a href="team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                    {% endfor %}
 				</ul>
             </div>
             {% for team in teamList %} 
@@ -33,7 +33,6 @@
             {% endfor %}
 
             <div id="footer">
-                <hr>
 				<p>Created by Tal Cohen</p>
 			</div>
 			<div id="format">
