@@ -156,13 +156,14 @@ def getMatchups(soup, _cshTeam, url):
                 enemyTeam.rank = getRank(soup, enemyTeam.name, _wins, _losses, _ties) 
                 enemyTeam.save()
             else:
-                print("i error here")
                 enemyTeam = Team(link=enemyUrl, sport=_sport, name=_enemyTeam, wins=_wins, losses=_losses, ties=_ties, picture=_picture, rank=getRank(soup, _enemyTeam, _wins, _losses, _ties), iscsh=False)
                 enemyTeam.save()
-            try:
-                happened = cshTeam.CSH.get(enemy = enemyTeam)
-            except:
-                happened = None
+            oldmatch = cshTeam.CSH.filter(enemy = enemyTeam)
+            happened = None
+            if len(oldmatch) != 0:
+                for game in oldmatch:
+                    if game.date == _date:
+                        happened = game
             if happened: #if matchup made
                 if _outcome: #if game happened
                     happened.cshScore = _cshScore
@@ -172,7 +173,8 @@ def getMatchups(soup, _cshTeam, url):
                     #matchup = Matchup(csh=cshTeam, enemy=enemyTeam, cshScore=_cshScore, enemyScore=_enemyScore, outcome=_outcome, date=_date)
                     #matchup.save()
                 else:
-                    happened.upcoming = _upcoming 
+                    happened.upcoming = _upcoming
+                    happened.date = _date
                     happened.save()
             else:
                 if _outcome:
@@ -263,7 +265,7 @@ def getRoster(soup, url):
    #     nxt = buttons[len(buttons)-1]
    #     print(nxt)
    #     br = mechrequest()
-   #     response = br.open(link)
+   #    response = br.open(link)
    #     for i in range(10):
    #         html = response.read()
    #         #print("Page %d :" % i, html)
