@@ -425,10 +425,12 @@ a.sport:hover div {
 
 #form {
     margin-top: 60px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
+#form p {
+    margin-top: 15px;
 
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/

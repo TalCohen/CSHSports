@@ -12,10 +12,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'cshsports',                      # Or path to database file if using sqlite3.
-        'USER': 'Tal',                      # Not used with sqlite3.
-        'PASSWORD': 'rossissexy6969',                  # Not used with sqlite3.
-        'HOST': '129.21.50.240',                      # Set to empty string for localhost. Not used with sqlite3.
+        'NAME': 'sports',                      # Or path to database file if using sqlite3.
+        'USER': 'sports',                      # Not used with sqlite3.
+        'PASSWORD': 'zALSeqxm5JUeeEuC',                  # Not used with sqlite3.
+        'HOST': '129.21.49.131',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }

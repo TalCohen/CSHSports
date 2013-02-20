@@ -1,12 +1,13 @@
 from sports.models import Team, Player, Matchup, Authenticate
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import Http404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 import time
 from datetime import date
 import sha
+import parse
 
 #returns a webpage with all of the information about player based on the userid
 def playerdetails(request, user_id):
@@ -71,9 +72,11 @@ def addteams(request):
 def maketeams(request):
     a = Authenticate.objects.get(pk=1)
     if(a.password == sha.new(request.POST['pwd']).hexdigest()):
-        return
+        parse.getData(request.POST['url']) # Sanitize your inputs
+        t = Team.objects.get(link=request.POST['url'])
+        return redirect('/team/' + str(t.id) + '/')
     else:
-        return HttpResponse("You did not")
+        return HttpResponse("I'm sorry, but you're a fuck up.")
 
 
 def fixedSizePlayer(name):
