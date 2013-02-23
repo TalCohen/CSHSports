@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Oxygen', sans-serif;
 }
 
 html, body {
@@ -19,9 +20,6 @@ html, body {
     margin: 0 auto;
     width: 100%;
     text-align:center;
-/*  background-color: red;
-    uncomment when changing anything about nav bar
-*/
 }
 
 #nav li {
@@ -32,7 +30,6 @@ html, body {
     color: white;
     background-color: #222222;
     text-decoration: none;
-    font-family: 'Oxygen', sans-serif;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 15px;
@@ -67,7 +64,6 @@ html, body {
 
 #footer p {
     text-align: center;
-    font-family: 'Oxygen', sans-serif;
 }
 
 #container {
@@ -75,8 +71,6 @@ html, body {
     width: 1200px;
     background: white;
     min-height: 100%;
-
-
 }
 
 body { 
@@ -85,7 +79,6 @@ body {
 
 .sport {
     float: left;
-    /*background-color: #5ba215;*/
     width: 25%;
     height: 300px;
     margin: 30px 30px 30px 60px;
@@ -112,19 +105,16 @@ body {
     font-size: 200%;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: 'Oxygen', sans-serif;
     font-weight: bold;
 }
 
 .sport .wlt {
     color: white;
     font-size: 200%;
-    font-family: 'Oxygen', sans-serif;
 }
 
 .sport .next {
     color: white;
-    font-family: 'Oxygen', sans-serif;
     font-size: 175%;
     padding-top: 60px;
     padding-bottom: 15px;
@@ -132,7 +122,6 @@ body {
 
 .sport .upcoming {
     color: white;
-    font-family: 'Oxygen', sans-serif;
     font-size: 250%;
 }
 
@@ -197,7 +186,6 @@ a.sport:hover div {
 .player .name p {
     color: #222222;
     font-size: 175%;
-    font-family: 'Oxygen', sans-serif;
 }
 
 .player #name {
@@ -214,10 +202,7 @@ a.sport:hover div {
 .player #name p {
     color: #222222;
     font-size: 175%;
-    font-family: 'Oxygen', sans-serif;
 }
-
-
 
 .width1 {
     width: 90%;
@@ -245,18 +230,15 @@ a.sport:hover div {
 .player .name .score {
     color: #5ba215;
     font-size: 250%;
-    font-family: 'Oxygen', sans-serif;
     margin-top: -7px;
 }
 
 .player .name .wlt {
     font-size: 200%;
-    font-family: 'Oxygen', sans-serif;
 }
 
 .player .nextgame {
     color: #222222;
-    font-family: 'Oxygen', sans-serif;
     float: right;
     text-align: right;
     margin-right: 60px;
@@ -311,6 +293,7 @@ a.sport:hover div {
 
 .match .name h3 {
     color: white;
+    margin-top: 15px;
 }
 
 .match .name .score {
@@ -318,7 +301,8 @@ a.sport:hover div {
 }
 
 .match .nextgame {
-    margin-right: 30px;
+    margin-right: 15px;
+    margin-top: 0px;
 }
 
 .match img {
@@ -326,11 +310,11 @@ a.sport:hover div {
 }
 
 .match .upcoming {
-    font-size: 225%;
+    font-size: 175%;
 }
 
 .match .outcome {
-    font-size: 400%;
+    font-size: 300%;
 }
 
 .match .outcomescore {
@@ -349,7 +333,6 @@ a.sport:hover div {
     text-align: center;
     color: #222222;
     width: 100%;
-    font-family: 'Oxygen', sans-serif;
 }
 
 .matchupheader h2 {
@@ -391,7 +374,6 @@ a.sport:hover div {
     height: 100px;
     float: left;
     color: white;
-    font-family: 'Oxygen', sans-serif;
     font-size: 200%;
     padding-left: 8px;
     width: 383px;
