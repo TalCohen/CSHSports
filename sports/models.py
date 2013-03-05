@@ -20,6 +20,7 @@ class Team(models.Model):
     picture = models.CharField(max_length=250)
     rank = models.IntegerField(null=True, blank=True)
     iscsh = models.BooleanField()
+    season = models.IntegerField()
 
 class Player(models.Model):
     link = models.CharField(max_length=200)
@@ -41,3 +42,11 @@ class Matchup(models.Model):
 class Authenticate(models.Model):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
+    imusername = models.CharField(max_length=20)
+    impassword = models.CharField(max_length=20)
+
+class Season(models.Model):
+    season = models.IntegerField()
+
+
+#have the Season class keep track of the CURRENT season. SOCIAL/ME can change the CURRENT season through web interface with username and password login. Team objects all get stamped with the Season.objects.all()[0] integer being stored. that way, we can keep the stuff on the page only for THE CURRENT SEASON.

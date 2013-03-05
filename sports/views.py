@@ -1,4 +1,4 @@
-from sports.models import Team, Player, Matchup, Authenticate
+from sports.models import Team, Player, Matchup, Authenticate, Season
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import Http404
@@ -25,8 +25,6 @@ def playerdetails(request, user_id):
 def allplayers(request):
     latest = Player.objects.all() 
     return render_to_response('example/index.html', {'latest_player_list': latest}, context_instance=RequestContext(request))
-
-
 
 def allteams(request):
     teams = Team.objects.filter(iscsh=True)
@@ -65,6 +63,8 @@ def getUpcoming(matchupList):
             return dates[1]
     return None
 
+def auth(request):
+    pass
 
 def addteams(request):
     return render_to_response('CSHSports/addteams.html', context_instance=RequestContext(request))
@@ -78,6 +78,17 @@ def maketeams(request):
     else:
         return HttpResponse("I'm sorry, but you're a fuck up.")
 
+def changeseason(request):
+    """a = Authenticate.objects.get(pk=1)
+    if(a.password == sha.new(request.POST['pwd']).hexdigest()):
+        s = Season.objects.all()[0]
+        s.season += 1
+        s.save()
+        return HttpResponse("Season successfully changed.")
+    else:
+        return HttpResponse("I'm sorry, but you're a fuck up.")
+    """
+    return render_to_response('CSHSports/changeseason.html', context_instance=RequestContext(request))
 
 def fixedSizePlayer(name):
     if len(name) > 18:

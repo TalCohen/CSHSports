@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^team/(?P<team_id>\d+)/schedule/$', 'sports.views.matchups'),
     url(r'^addteams/$', 'sports.views.addteams'),
     url(r'^addteams/make/$', 'sports.views.maketeams'),
+    url(r'^changeseason/$', 'sports.views.changeseason'),
 )
