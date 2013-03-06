@@ -3,7 +3,6 @@
 <!-- <meta http-equiv="refresh" content="5"> -->
     <head>
         <link type="text/css" rel="stylesheet" href="/static/main.css" />
-        <link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
         <title>
             {{player.name}}
@@ -24,19 +23,15 @@
                 </ul>
             </div>
 
-
-
-
-            <div id="form">
-                <form name="input" method="POST" action = "/addteams/make/">
-                    {% csrf_token %}
-                    Team url: <input type="text" name="url" />
-                    <input type="submit" value="Submit" />
-                </form> 
-                <p>Please be patient...</p>
+            <div id="admin">
+                <h3>CSH Sports is currently on season {{season}}</h3>
+                {% if teams %}
+                <h4>Current CSH Sports teams:</h4>
+                {% for team in teams %}
+                <p>{{team.name}}</p>
+                {% endfor %}
+                {% endif %}
             </div>
-
-
 
             <div id="footer">
                 <p>Created by Tal Cohen</p>

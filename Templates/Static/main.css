@@ -42,17 +42,16 @@ html, body {
     color: #5ba215;
 }
 
+#headerlink {
+    text-decoration: none;
+    color: #498211;
+}
+
 #header {
     padding-top: 30px;
     padding-bottom: 30px;
-    font-family: 'Domine', serif;
     text-align: center;
-    color: #498211;
     font-size: 300%;
-}
-
-#headerlink {
-    text-decoration: none;
 }
 
 #footer {
@@ -91,7 +90,6 @@ body {
     font-size: 175%;
     padding-top: 15px;
     padding-bottom: 30px;
-    font-family: 'Domine', serif;
 }
 
 .sport img {
@@ -180,7 +178,6 @@ a.sport:hover div {
 .player .name h3 {
     color: #222222;
     font-size: 250%;
-    font-family: 'Domine', serif;
 }
 
 .player .name p {
@@ -196,7 +193,6 @@ a.sport:hover div {
 .player #name h3 {
     color: #5ba215;
     font-size: 350%;
-    font-family: 'Domine', serif;
 }
 
 .player #name p {
@@ -406,13 +402,42 @@ a.sport:hover div {
 }
 
 #form {
-    margin-top: 60px;
+    margin-top: 30px;
     margin-bottom: 30px;
     text-align: center;
 }
 
 #form p {
     margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#logout {
+    float: right;
+    margin-top: -19px;
+}
+
+#admin {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+#admin h3 {
+    margin-bottom: 15px;
+}
+
+#lock {
+    float: right;
+    height: 20px;
+    margin-top: -19px;
+    opacity: 0.1;
+    filter: alpha(opacity=10);
+    margin-right: 7px;
+}
+
+#locklink {
+    text-decoration: none;
 
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/

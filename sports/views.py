@@ -9,7 +9,6 @@ from datetime import date
 import sha
 import parse
 
-#returns a webpage with all of the information about player based on the userid
 def playerdetails(request, user_id):
     p = get_object_or_404(Player, pk=user_id)
     teamList = p.team.all()
@@ -27,7 +26,7 @@ def allplayers(request):
     return render_to_response('example/index.html', {'latest_player_list': latest}, context_instance=RequestContext(request))
 
 def allteams(request):
-    teams = Team.objects.filter(iscsh=True)
+    teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
     for team in teams:
         team.name = fixedSizeTeam(team.name)
     return render_to_response('CSHSports/index.html', {'teamList': teams}, context_instance=RequestContext(request))
@@ -64,31 +63,80 @@ def getUpcoming(matchupList):
     return None
 
 def auth(request):
-    pass
+    if 'login' in request.session and request.session['login']:
+        return True
+    if not request.POST:
+        return False
+    authList = Authenticate.objects.all()
+    for a in authList:
+        if(a.username == request.POST['user']) and (a.password == sha.new(request.POST['pwd']).hexdigest()):
+            request.session['login'] = True
+            request.session['invalid'] = False
+            return True
+    request.session['invalid'] = True
+    return False
+          
+def login(request):
+    if auth(request):
+        return redirect('/admin/')
+    else:
+        if 'invalid' in request.session and request.session['invalid']:
+            invalid = True
+        else:
+            invalid = False
+        return render_to_response('CSHSports/login.html', {'invalid': invalid}, context_instance=RequestContext(request))
+
+def admin(request):
+    if auth(request):
+        teamList = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
+        s = Season.objects.get(pk=1).season
+        return render_to_response('CSHSports/admin.html', {'teams' : teamList, 'season' : s}, context_instance=RequestContext(request))
+    else:
+        return redirect('/login/')
 
 def addteams(request):
-    return render_to_response('CSHSports/addteams.html', context_instance=RequestContext(request))
+    if auth(request):
+        return render_to_response('CSHSports/addteams.html', context_instance=RequestContext(request))
+    else:
+        return redirect('/login/')
 
 def maketeams(request):
-    a = Authenticate.objects.get(pk=1)
-    if(a.password == sha.new(request.POST['pwd']).hexdigest()):
+    if auth(request):
         parse.getData(request.POST['url']) # Sanitize your inputs
         t = Team.objects.get(link=request.POST['url'])
-        return redirect('/team/' + str(t.id) + '/')
+        #return redirect('/team/' + str(t.id) + '/')
+        return redirect('/admin/')
     else:
-        return HttpResponse("I'm sorry, but you're a fuck up.")
+        return redirect('/login/')
+
+#fix changeseason to be behind auth. have a logout button. maybe fix up /make.
+
+
 
 def changeseason(request):
-    """a = Authenticate.objects.get(pk=1)
-    if(a.password == sha.new(request.POST['pwd']).hexdigest()):
-        s = Season.objects.all()[0]
-        s.season += 1
-        s.save()
-        return HttpResponse("Season successfully changed.")
+    if auth(request):
+        s = Season.objects.get(pk=1).season
+        return render_to_response('CSHSports/changeseason.html', {'season' : s}, context_instance=RequestContext(request))
     else:
-        return HttpResponse("I'm sorry, but you're a fuck up.")
-    """
-    return render_to_response('CSHSports/changeseason.html', context_instance=RequestContext(request))
+        return redirect('/login/')
+
+def change(request):
+    if auth(request):
+        s = Season.objects.get(pk=1)
+        if 'choice' in request.POST and request.POST['choice'] == 'forward': 
+            s.season += 1
+            s.save()
+        elif 'choice' in request.POST and request.POST['choice'] == 'back' and s.season != 1:
+            s.season -= 1
+            s.save()
+        return redirect('/admin/')
+    else:
+        return redirect('/login/')
+
+def logout(request):
+    if auth(request):
+        request.session['login'] = False
+    return redirect('/login')
 
 def fixedSizePlayer(name):
     if len(name) > 18:

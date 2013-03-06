@@ -3,7 +3,6 @@
 <!-- <meta http-equiv="refresh" content="5"> -->
     <head>
         <link type="text/css" rel="stylesheet" href="/static/main.css" />
-        <link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
         <title>
             {{player.name}}
@@ -22,18 +21,21 @@
                 <ul id="nav">
                     <li id="logout"><a href="/logout">Logout</a><li>
                 </ul>
+
             </div>
 
 
 
 
             <div id="form">
-                <form name="input" method="POST" action = "/addteams/make/">
+                <form name="input" method="POST" action = "/changeseason/make/">
+                    <h3>CSH Sports is currently on season {{season}}</h3>
+                    <p>Please select one of the following:</p>
                     {% csrf_token %}
-                    Team url: <input type="text" name="url" />
+                    <p>Go to <span style="text-decoration:underline">next</span> season <input type="radio" name="choice" value="forward" /></p>
+                    <p>Go to <span style="text-decoration:underline">previous</span> season <input type="radio" name="choice" value="back" /></p>
                     <input type="submit" value="Submit" />
-                </form> 
-                <p>Please be patient...</p>
+                </form>
             </div>
 
 

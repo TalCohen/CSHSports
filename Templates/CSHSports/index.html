@@ -3,7 +3,6 @@
 <!-- <meta http-equiv="refresh" content="5"> -->
 	<head>
 		<link type="text/css" rel="stylesheet" href="/static/main.css" />
-		<link href='http://fonts.googleapis.com/css?family=Domine:400,700' rel='stylesheet' type='text/css' />
 		<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
 		<title>
 			CSH Sports
@@ -11,7 +10,7 @@
 	</head>
 	<body>
         <div id="container">
-            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+            <h1 id="header"><a href="/" id="headerlink">CSH Sports</a></h1>
 			<div id="navbg">
 				<ul id="nav">
 					<li><a href="/">Home</a></li>
@@ -19,7 +18,8 @@
                     {% for team in teamList %}
                     <li><a href="team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
                     {% endfor %}
-				</ul>
+                </ul>
+                <a href="/login/" id="locklink"><img src="/static/lock.png" id="lock"/></a>
             </div>
             {% for team in teamList %} 
             <a href="team/{{team.id}}" class="sport main">
