@@ -438,6 +438,16 @@ a.sport:hover div {
 
 #locklink {
     text-decoration: none;
+}
+
+#git {
+    text-decoration: none;
+    color: #5ba215;
+}
+
+#git:hover {
+    color: #498211;
+}
 
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/
