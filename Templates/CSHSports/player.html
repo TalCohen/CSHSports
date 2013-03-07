@@ -38,6 +38,11 @@
 
             
             <!--If they have one team-->
+            {% if empty %}
+            <div id="name">
+                <p>{{player.name}} is not currently on any sports teams.</p>
+            </div>
+            {% else %}
             {% for team in teams %}
             {%if length == 1 %}
             <div class="sport width1">
@@ -64,7 +69,7 @@
 				</a>
             </div>
             {% endfor %}
-
+            {% endif %}
 
 		<!-- 	<div class="player">
 				<h3>John Doe</h3>

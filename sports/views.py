@@ -11,15 +11,18 @@ import parse
 
 def playerdetails(request, user_id):
     p = get_object_or_404(Player, pk=user_id)
-    teamList = p.team.all()
+    isEmpty = False
+    teamList = p.team.filter(season=Season.objects.get(pk=1).season)
+    if teamList == 0:
+        isEmpty = True
     length = len(teamList)
     for team in teamList:
         if length >= 3:
             team.name = fixedSizeTeam(team.name)
         matchupList = team.CSH.all()
         team.nextGame = getUpcoming(matchupList)
-    teams = Team.objects.filter(iscsh=True)
-    return render_to_response('CSHSports/player.html', {'player': p, 'teams': teamList, 'length': length, 'teamList': teams}, context_instance=RequestContext(request))
+    teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
+    return render_to_response('CSHSports/player.html', {'player': p, 'teams': teamList, 'length': length, 'teamList': teams, 'isEmpty': isEmpty}, context_instance=RequestContext(request))
 
 def allplayers(request):
     latest = Player.objects.all() 
@@ -42,14 +45,14 @@ def teamdetails(request, team_id):
             playerList.insert(0, playerList.pop(playerList.index(player)))
     side1 = playerList[::2]
     side2 = playerList[1::2]
-    teams = Team.objects.filter(iscsh=True)
+    teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
     infoDict = {'team': t, 'side1': side1, 'side2': side2, 'matchup':getUpcoming(matchupList), 'teamList': teams}
     return render_to_response('CSHSports/teamdetails.html', infoDict, context_instance=RequestContext(request))
 
 def matchups(request, team_id):
     t = get_object_or_404(Team, pk=team_id)
     matchupList = t.CSH.all()
-    teams = Team.objects.filter(iscsh=True)
+    teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
     infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3], 'teamList': teams}
     return render_to_response('CSHSports/matchups.html', infoDict, context_instance=RequestContext(request))
 

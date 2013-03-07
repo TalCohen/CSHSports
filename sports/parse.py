@@ -222,7 +222,7 @@ def getData(url):
     getRoster(soup, url)
 
 def update():
-    urlList = [team.link for team in Team.objects.filter(iscsh=True)]
+    urlList = [team.link for team in Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)]
     for url in urlList:
         getData(url)
     #broomball = "http://www.imleagues.com/School/Team/Home.aspx?Team=57a774ebc1e24dafa4c98c1fea9fcbd0"
