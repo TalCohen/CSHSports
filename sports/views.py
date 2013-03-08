@@ -23,7 +23,8 @@ def home(request):
         newName = newName[0] + " " + newName[len(newName)-1]
         name = newName
     for player in pList:
-        if player.name == name:
+        tList = player.team.filter(season=Season.objects.get(pk=1).season)
+        if player.name == name and len(tList) > 0:
             return playerdetails(request, player.id)
     return redirect('/allteams/')
 
