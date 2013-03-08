@@ -68,6 +68,7 @@ def getMatchups(soup, _cshTeam, url):
     else:
         cshTeam = Team(link=url, sport=_sport, name=_cshTeam, wins=_csh_wins, losses=_csh_losses, ties=_csh_ties, picture=csh_picture, rank=0, iscsh=True, season=Season.objects.all()[0].season)
         cshTeam.save()
+    matchList = list(cshTeam.CSH.all())
     overall = soup.find(id="ctl00_ContentPlaceHolder2_ucTeamRelated_pnlTeamSchedule")
     teamSchedule = overall.find_next("tbody")
     if (teamSchedule == None):
@@ -147,6 +148,8 @@ def getMatchups(soup, _cshTeam, url):
                     happened.upcoming = _upcoming
                     happened.date = _date
                     happened.save()
+                if happened in matchList:
+                    matchList.remove(happened)
             else:
                 if _outcome:
                     matchup = Matchup(csh=cshTeam, enemy=enemyTeam, cshScore=_cshScore, enemyScore=_enemyScore, outcome=_outcome, date=_date)
@@ -154,6 +157,8 @@ def getMatchups(soup, _cshTeam, url):
                 else:
                     matchup = Matchup(csh=cshTeam, enemy=enemyTeam,cshScore=None, enemyScore=None, upcoming=_upcoming, date=_date)
                     matchup.save()
+    for match in matchList:
+        match.delete()
     cshTeam.wins = _csh_wins
     cshTeam.losses = _csh_losses
     cshTeam.ties = _csh_ties

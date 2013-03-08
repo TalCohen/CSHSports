@@ -47,6 +47,3 @@ class Authenticate(models.Model):
 
 class Season(models.Model):
     season = models.IntegerField()
-
-
-#have the Season class keep track of the CURRENT season. SOCIAL/ME can change the CURRENT season through web interface with username and password login. Team objects all get stamped with the Season.objects.all()[0] integer being stored. that way, we can keep the stuff on the page only for THE CURRENT SEASON.
