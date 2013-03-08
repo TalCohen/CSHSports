@@ -14,26 +14,25 @@
 			<div id="navbg">
 				<ul id="nav">
 					<li><a href="/">Home</a></li>
-                    <li><a href="/">My Teams</a></li>
+                    <li><a href="/allteams">All Teams</a></li>
                     {% for team in teamList %}
-                    <li><a href="team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                        <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
                     {% endfor %}
                 </ul>
                 <a href="/login/" id="locklink"><img src="/static/lock.png" id="lock"/></a>
             </div>
             {% for team in teamList %} 
-            <a href="team/{{team.id}}" class="sport main">
-                <div id="{{team.sport}}">
-                    <h3>{{team.name}}</h3>
-                    <img src="{{team.picture}}"/>
-                    <p class="score">{{team.sport}}</p>
-                    <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
-				</div>
-            </a>
+                <a href="/team/{{team.id}}" class="sport main">
+                    <div id="{{team.sport}}">
+                        <h3>{{team.name}}</h3>
+                        <img src="{{team.picture}}"/>
+                        <p class="score">{{team.sport}}</p>
+                        <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
+                    </div>
+                </a>
             {% endfor %}
-
             <div id="footer">
-                <p>Created by Tal Cohen | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
+                <p>Created by Tal Cohen (tcohen@csh.rit.edu) | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
 			</div>
 			<div id="format">
 			</div>

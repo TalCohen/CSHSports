@@ -9,11 +9,33 @@ from datetime import date
 import sha
 import parse
 
+def home(request):
+    """
+    Gets the name of the person signing in from ldap to make their homepage
+    their personal player page
+    """
+    #request.META["HTTP_X_WEBAUTH_LDAP_CN"] = Common Name
+    #request.META["HTTP_X_WEBAUTH_USER"] = CSH Name
+    pList = Player.objects.all()
+    name = request.META["HTTP_X_WEBAUTH_LDAP_CN"]
+    newName = name.split(" ")
+    if len(newName) > 2:
+        newName = newName[0] + " " + newName[len(newName)-1]
+        name = newName
+    for player in pList:
+        if player.name == name:
+            return playerdetails(request, player.id)
+    return redirect('/allteams/')
+
 def playerdetails(request, user_id):
+    """
+    Gets the information to populate each player page, with the teams they are
+    playing on
+    """
     p = get_object_or_404(Player, pk=user_id)
     isEmpty = False
     teamList = p.team.filter(season=Season.objects.get(pk=1).season)
-    if teamList == 0:
+    if len(teamList) == 0:
         isEmpty = True
     length = len(teamList)
     for team in teamList:
@@ -25,16 +47,26 @@ def playerdetails(request, user_id):
     return render_to_response('CSHSports/player.html', {'player': p, 'teams': teamList, 'length': length, 'teamList': teams, 'isEmpty': isEmpty}, context_instance=RequestContext(request))
 
 def allplayers(request):
+    """
+    Gets every player in the database
+    """
     latest = Player.objects.all() 
     return render_to_response('example/index.html', {'latest_player_list': latest}, context_instance=RequestContext(request))
 
 def allteams(request):
+    """
+    Gets the information to populate the main page with all the teams
+    """
     teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
     for team in teams:
         team.name = fixedSizeTeam(team.name)
-    return render_to_response('CSHSports/index.html', {'teamList': teams}, context_instance=RequestContext(request))
+    return render_to_response('CSHSports/allteams.html', {'teamList': teams}, context_instance=RequestContext(request))
 
 def teamdetails(request, team_id):
+    """
+    Gets the information to populate the team page with the next upcoming game,
+    and roster
+    """
     t = get_object_or_404(Team, pk=team_id)
     matchupList = t.CSH.all() 
     playerList = t.player_set.all()
@@ -50,14 +82,19 @@ def teamdetails(request, team_id):
     return render_to_response('CSHSports/teamdetails.html', infoDict, context_instance=RequestContext(request))
 
 def matchups(request, team_id):
+    """
+    Gets the information to populate each team's schedule
+    """
     t = get_object_or_404(Team, pk=team_id)
     matchupList = t.CSH.all()
     teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
     infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3], 'teamList': teams}
     return render_to_response('CSHSports/matchups.html', infoDict, context_instance=RequestContext(request))
 
-
 def getUpcoming(matchupList):
+    """
+    Gets the next upcoming game, given a list of matchups
+    """
     timeSet = [(time.strptime(match.date,"%a, %b %d %Y"), match) for match in matchupList]
     timeToday = time.strptime(str(date.today().day) + " " + str(date.today().month) + " " + str(date.today().year), "%d %m %Y")
     for dates in timeSet:
@@ -66,6 +103,9 @@ def getUpcoming(matchupList):
     return None
 
 def auth(request):
+    """
+    The main function for the auth required to access the admin hub
+    """
     if 'login' in request.session and request.session['login']:
         return True
     if not request.POST:
@@ -80,6 +120,9 @@ def auth(request):
     return False
           
 def login(request):
+    """
+    Gets the information for the login page
+    """
     if auth(request):
         return redirect('/admin/')
     else:
@@ -90,6 +133,9 @@ def login(request):
         return render_to_response('CSHSports/login.html', {'invalid': invalid}, context_instance=RequestContext(request))
 
 def admin(request):
+    """
+    Gets the information for the admin hub main page
+    """
     if auth(request):
         teamList = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
         s = Season.objects.get(pk=1).season
@@ -98,25 +144,29 @@ def admin(request):
         return redirect('/login/')
 
 def addteams(request):
+    """
+    Gets the information for the addteams page in the admin hub
+    """
     if auth(request):
         return render_to_response('CSHSports/addteams.html', context_instance=RequestContext(request))
     else:
         return redirect('/login/')
 
 def maketeams(request):
+    """
+    Actually adds the team that was requested by the addteams page
+    """
     if auth(request):
         parse.getData(request.POST['url']) # Sanitize your inputs
         t = Team.objects.get(link=request.POST['url'])
-        #return redirect('/team/' + str(t.id) + '/')
         return redirect('/admin/')
     else:
         return redirect('/login/')
 
-#fix changeseason to be behind auth. have a logout button. maybe fix up /make.
-
-
-
 def changeseason(request):
+    """
+    Gets the information for the changeseason page in the admin hub
+    """
     if auth(request):
         s = Season.objects.get(pk=1).season
         return render_to_response('CSHSports/changeseason.html', {'season' : s}, context_instance=RequestContext(request))
@@ -124,6 +174,9 @@ def changeseason(request):
         return redirect('/login/')
 
 def change(request):
+    """
+    Actually changes the season that was requested from the admin hub
+    """
     if auth(request):
         s = Season.objects.get(pk=1)
         if 'choice' in request.POST and request.POST['choice'] == 'forward': 
@@ -137,16 +190,25 @@ def change(request):
         return redirect('/login/')
 
 def logout(request):
+    """
+    Logs the user out from the admin hub
+    """
     if auth(request):
         request.session['login'] = False
     return redirect('/login')
 
 def fixedSizePlayer(name):
+    """
+    Takes a player name and changes the player name to fit the template
+    """
     if len(name) > 18:
         name = name[:18] + "..."
     return name
 
 def fixedSizeTeam(name):
+    """
+    Takes a team name and changes the team name to fit the template
+    """
     if len(name) > 14:
         name = name[:14] + "..."
     return name

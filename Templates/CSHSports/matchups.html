@@ -11,19 +11,17 @@
     </head>
     <body>
         <div id="container">
-            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+            <h1 id="header"><a href="/" id="headerlink">CSH Sports</a></h1>
             <div id="navbg">
                 <ul id="nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/">My Teams</a></li>
+                    <li><a href="/allteams">All Teams</a></li>
                     {% for team in teamList %}
-                    <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                        <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
                     {% endfor %}
                 </ul>
                 <a href="/login/" id="locklink"><img src="/static/lock.png" id="lock"/></a>
             </div>
-
-
             <div class="player">
                 <a href="/team/{{team.id}}" id=teamlink>
                 <img src="{{team.picture}}"/>
@@ -36,66 +34,51 @@
                 <div class="nextgame">
                         <p class="next">Next Game:</p>
                         {% if matchupnext %}
-                        <p class="upcoming">{{matchupnext.date}}</p>
-                        <p class="upcoming">{{matchupnext.upcoming}}</p>
+                            <p class="upcoming">{{matchupnext.date}}</p>
+                            <p class="upcoming">{{matchupnext.upcoming}}</p>
                         {% else %}
-                        <p class="upcoming"><br></p>
-                        <p class="upcoming">No Upcoming Games</p>
+                            <p class="upcoming"><br></p>
+                            <p class="upcoming">No Upcoming Games</p>
                         {% endif %}
                 </div>
             </div>
-
-
             <div class="matchupheader">
                 <h2>Schedule</h2>
                 <h3>{{team.sport}} {{year}}</h3>
             </div>
-
-
             {% for matchup in matchups %}
-            {% if matchup.outcome %}
-            <div class="player match happened">
-                <img src={{matchup.enemy.picture}}>
-                <div id="spacing"></div>
-                <div class="name">
-                    <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif%}</h3>
-                    <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
+                {% if matchup.outcome %}
+                <div class="player match happened">
+                    <img src={{matchup.enemy.picture}}>
+                    <div id="spacing"></div>
+                    <div class="name">
+                        <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif%}</h3>
+                        <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
+                    </div>
+                    <div class="nextgame">
+                            <p class="outcome">{{matchup.outcome}}</p>
+                            <p class="outcomescore words">Score</p>
+                            <p class="outcomescore numbers">{{matchup.cshScore}} - {{matchup.enemyScore}}</p>
+                    </div>
                 </div>
-                <div class="nextgame">
-                        <p class="outcome">{{matchup.outcome}}</p>
-                        <p class="outcomescore words">Score</p>
-                        <p class="outcomescore numbers">{{matchup.cshScore}} - {{matchup.enemyScore}}</p>
+                {% else %}
+                <div class="player match">
+                    <img src={{matchup.enemy.picture}}>
+                    <div id="spacing"></div>
+                    <div class="name">
+                        <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif %}</h3>
+                        <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
+                    </div>
+                    <div class="nextgame">
+                            <p class="next">Date:</p>
+                            <p class="upcoming">{{matchup.date}}</p>
+                            <p class="upcoming">{{matchup.upcoming}}</p>
+                    </div>
                 </div>
-            </div>
-            {% else %}
-            <div class="player match">
-                <img src={{matchup.enemy.picture}}>
-                <div id="spacing"></div>
-                <div class="name">
-                    <h3>{{matchup.enemy.name}} {% if matchup.enemy.rank %} ({{matchup.enemy.rank}}) {% endif %}</h3>
-                    <p class="wlt" title="W - L - T">{{matchup.enemy.wins}} - {{matchup.enemy.losses}} - {{matchup.enemy.ties}}</p>
-                </div>
-                <div class="nextgame">
-                        <p class="next">Date:</p>
-                        <p class="upcoming">{{matchup.date}}</p>
-                        <p class="upcoming">{{matchup.upcoming}}</p>
-                </div>
-            </div>
-            {% endif %}
+                {% endif %}
             {% endfor %}
-
-
-
-
-
-
-
-
-
-
-
             <div id="footer">
-                <p>Created by Tal Cohen | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
+                <p>Created by Tal Cohen (tcohen@csh.rit.edu) | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
             </div>
             <div id="format">
             </div>

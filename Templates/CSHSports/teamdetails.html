@@ -11,19 +11,17 @@
 	</head>
 	<body>
 		<div id="container">
-            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
-			<div id="navbg">
+            <h1 id="header"><a href="/" id="headerlink">CSH Sports</a></h1>
+            <div id="navbg">
 				<ul id="nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/">My Teams</a></li>
+                    <li><a href="/allteams">All Teams</a></li>
                     {% for team in teamList %}
-                    <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                        <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
                     {% endfor %}
                 </ul>
                 <a href="/login/" id="locklink"><img src="/static/lock.png" id="lock"/></a>
 			</div>
-		
-
             <div class="player">
                 <img src="{{team.picture}}"/>
 				<div class="name">
@@ -44,44 +42,38 @@
 					</a>
 				</div>
 			</div>
-
-
-
-
             <div class="roster side1">
                 {% for player in side1 %}
-				<div class="person">
-                    <a href="/player/{{player.id}}"><img src={{player.picture}} />
-					<div>
-                        <p>{{player.name}}</p>
-                        <p>{{player.gender}}</p>
-                        {% if player.iscaptain %}
-                        <p>Captain</p>
-                        {% endif %}
-					</div>
-					</a>
-                </div>
+                    <div class="person">
+                        <a href="/player/{{player.id}}"><img src={{player.picture}} />
+                        <div>
+                            <p>{{player.name}}</p>
+                            <p>{{player.gender}}</p>
+                            {% if player.iscaptain %}
+                                <p>Captain</p>
+                            {% endif %}
+                        </div>
+                        </a>
+                    </div>
                 {% endfor %} 
             </div>
             <div class="roster side2">
                 {% for player in side2 %}
-                <div class="person">
-                    <a href="/player/{{player.id}}"><img src={{player.picture}} />
-                    <div>
-                        <p>{{player.name}}</p>
-                        <p>{{player.gender}}</p>
-                        {% if player.iscaptain %}
-                        <p>Captain</p>
-                        {% endif %}
+                    <div class="person">
+                        <a href="/player/{{player.id}}"><img src={{player.picture}} />
+                        <div>
+                            <p>{{player.name}}</p>
+                            <p>{{player.gender}}</p>
+                            {% if player.iscaptain %}
+                                <p>Captain</p>
+                            {% endif %}
+                        </div>
+                        </a>
                     </div>
-                    </a>
-                </div>
                 {% endfor %}
 			</div>
-
-
             <div id="footer">
-                <p>Created by Tal Cohen | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
+                <p>Created by Tal Cohen (tcohen@csh.rit.edu) | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
             </div>
 			<div id="format">
 			</div>

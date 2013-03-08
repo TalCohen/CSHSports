@@ -1,36 +1,42 @@
 import sys
 sys.path.append('/users/u20/tcohen/.virtualenvs/tcohen/lib/python2.7/site-packages')
-
 import mechanize
 import re
 from bs4 import BeautifulSoup
 from models import Team, Player, Matchup, Authenticate, Season
 
 def mechrequest():
-        url = 'https://imleagues.com/Login.aspx'
-        br = mechanize.Browser()
-        br.set_handle_robots(False) 
-        br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
-        br.open(url)
-        response = br.response().read()
-        br.select_form(nr=0) 
-        br.set_all_readonly(False)
-        mnext = re.search("""<a id="ctl00_ContentPlaceHolder1_btnLogin" tabindex="4" class="login" href="javascript:__doPostBack\('(.*?)','(.*?)'\)" style""", response)
-        user = Authenticate.objects.all()[0]
-        br.form["ctl00$ContentPlaceHolder1$inUserName"] = user.imusername
-        br.form["ctl00$ContentPlaceHolder1$inPassword"] = user.impassword
-        br["__EVENTTARGET"] = mnext.group(1)
-        br["__EVENTARGUMENT"] = mnext.group(2)
-        br.submit()
-        return br #Returns the browser that has logged in
+    """
+    Logs into imleagues with the appropriate username and password and returns
+    the browser that is logged in.
+    """
+    url = 'https://imleagues.com/Login.aspx'
+    br = mechanize.Browser()
+    br.set_handle_robots(False) 
+    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+    br.open(url)
+    response = br.response().read()
+    br.select_form(nr=0) 
+    br.set_all_readonly(False)
+    mnext = re.search("""<a id="ctl00_ContentPlaceHolder1_btnLogin" tabindex="4" class="login" href="javascript:__doPostBack\('(.*?)','(.*?)'\)" style""", response)
+    user = Authenticate.objects.all()[0]
+    br.form["ctl00$ContentPlaceHolder1$inUserName"] = user.imusername
+    br.form["ctl00$ContentPlaceHolder1$inPassword"] = user.impassword
+    br["__EVENTTARGET"] = mnext.group(1)
+    br["__EVENTARGUMENT"] = mnext.group(2)
+    br.submit()
+    return br #Returns the browser that has logged in
 
 def getName(soup):
+    """
+    Gets the CSH team's name given the page to navigate to.
+    """
     div = soup.find(id="ctl00_ContentPlaceHolder2_upgamestatus") #sets div to the div where the name is locatd
     return div.find_all("td")[2].get_text().strip().split(",")[0] #returns the name from the div
 
 def getPicture(string):
     """
-    takes in the link to the picture and returns the bigger size if available
+    Takes in the link to the picture and returns the bigger size if available
     """
     x = list(string)
     x[-5] = "m"
@@ -38,6 +44,11 @@ def getPicture(string):
     return y
 
 def getMatchups(soup, _cshTeam, url):
+    """
+    Gets every team's data given the CSH team's name and url. Gathers the
+    scores, dates for upcoming games, and opposing teams stats. Stores the
+    information into the database after making the appropriate objects.
+    """
     x = soup.find_all(text=re.compile(_cshTeam))
     _csh_wins = 0
     _csh_losses = 0
@@ -143,8 +154,6 @@ def getMatchups(soup, _cshTeam, url):
                 else:
                     matchup = Matchup(csh=cshTeam, enemy=enemyTeam,cshScore=None, enemyScore=None, upcoming=_upcoming, date=_date)
                     matchup.save()
-
-
     cshTeam.wins = _csh_wins
     cshTeam.losses = _csh_losses
     cshTeam.ties = _csh_ties
@@ -152,6 +161,9 @@ def getMatchups(soup, _cshTeam, url):
     cshTeam.save()
         
 def getRank(soup, name, wins, losses, ties):
+    """
+    Gets the team's current standing in their league.
+    """
     standings = soup.find("div", { "class" : "right_box_content" }).find_all("tr")[1:]
     rank = 1
     for standingteam in standings:
@@ -161,10 +173,11 @@ def getRank(soup, name, wins, losses, ties):
             return rank
         rank += 1
     return None
- 
-
 
 def getRoster(soup, url):
+    """
+    Gets the data for each player and stores the objects made in the database.
+    """
     mydivs = soup.find_all("div", { "class" : "popover-content" })[1] #Sets mydivs to the div containing the roster
     link = mydivs.find_next("a").get("href")
     rosterLink = "https://www.imleagues.com/School/Team/" + link
@@ -205,23 +218,25 @@ def getRoster(soup, url):
             player.save()
         counter += 2
 
-def getTeamsOn(link):
-    br = mechrequest()
-    br.open(link)
-    html = br.response().read()
-    soup = BeautifulSoup(html)
-
 def getData(url):
+    """
+    Parses through all of the pages to get the data to make the objects and
+    stores that in the database.
+    """
     br = mechrequest()
     br.open(url) #Opens the url in the browser
-    html = br.response().read() #Sets HTML to the read in source code
-    soup = BeautifulSoup(html) #Sets soup to use beautifulsoup with html
-    _cshTeam = getName(soup) #Sets cshTeam to the name of the CSH team returned in getName
+    html = br.response().read()
+    soup = BeautifulSoup(html)
+    _cshTeam = getName(soup)
     print("Currently updating for CSH team:", _cshTeam)
     getMatchups(soup, _cshTeam, url)
     getRoster(soup, url)
 
 def update():
+    """
+    Updates all of the information for each team in the current season by
+    calling the getData function on each team's url.
+    """
     urlList = [team.link for team in Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)]
     for url in urlList:
         getData(url)

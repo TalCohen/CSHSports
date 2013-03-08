@@ -10,19 +10,15 @@
     </head>
     <body>
         <div id="container">
-            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
+            <h1 id="header"><a href="/" id="headerlink">CSH Sports</a></h1>
             <div id="navbg">
                 <ul id="nav">
                     <li><a href="/">Back To CSH Sports</a></li>
                 </ul>
             </div>
-
-
-
-
             <div id="form">
                 {% if invalid %}
-                <p>Invalid username and/or password. Please try again.</p>
+                    <p>Invalid username and/or password. Please try again.</p>
                 {% endif %}
                 <form name="input" method="POST" action = "/admin/">
                     {% csrf_token %}
@@ -31,11 +27,8 @@
                     <input type="submit" value="Submit" />
                 </form> 
             </div>
-
-
-
             <div id="footer">
-                <p>Created by Tal Cohen | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
+                <p>Created by Tal Cohen (tcohen@csh.rit.edu) | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
             </div>
             <div id="format">
             </div>

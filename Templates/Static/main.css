@@ -449,6 +449,10 @@ a.sport:hover div {
     color: #498211;
 }
 
+#empty {
+    text-align: center;
+    margin-bottom: 60px;
+
 /*Green:#5ba215*/
 /*Dark Green:#498211;*/
 /*Charcoal:#222222*/

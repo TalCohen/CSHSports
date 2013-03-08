@@ -8,9 +8,10 @@ from django.conf import settings
 
 
 urlpatterns = patterns('',
+    url(r'^$', 'sports.views.home'),
     url(r'^player/$', 'sports.views.allplayers'),
     url(r'^player/(?P<user_id>\d+)/$', 'sports.views.playerdetails'),
-    url(r'^$', 'sports.views.allteams'),
+    url(r'^allteams/$', 'sports.views.allteams'),
     url(r'^team/(?P<team_id>\d+)/$', 'sports.views.teamdetails'),
     url(r'^team/(?P<team_id>\d+)/schedule/$', 'sports.views.matchups'),
     url(r'^login/$', 'sports.views.login'),

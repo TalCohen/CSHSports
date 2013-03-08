@@ -11,23 +11,17 @@
 	</head>
 	<body>
 		<div id="container">
-            <a href="/" id="headerlink"><h1 id="header">CSH Sports</h1></a>
-			<div id="navbg">
+            <h1 id="header"><a href="/" id="headerlink">CSH Sports</a></h1>
+            <div id="navbg">
 				<ul id="nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/">My Teams</a></li>
+                    <li><a href="/allteams">All Teams</a></li>
                     {% for team in teamList %}
-                    <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
+                        <li><a href="/team/{{team.id}}/schedule">{{team.name}}'s Schedule</a></li>
                     {% endfor %}
                 </ul>
                 <a href="/login/" id="locklink"><img src="/static/lock.png" id="lock"/></a>
 			</div>
-
-
-
-
-
-
 			<div class="player">
                 <img src="{{player.picture}}"/>
 				<div id="name">
@@ -35,23 +29,18 @@
                     <p>{{player.gender}}</p>
 				</div>
 			</div>
-
-            
-            <!--If they have one team-->
-            {% if empty %}
-            <div id="name">
-                <p>{{player.name}} is not currently on any sports teams.</p>
-            </div>
+            {% if isEmpty %}
+                <p id="empty">{{player.name}} is not currently on any sports teams.</p>
             {% else %}
-            {% for team in teams %}
-            {%if length == 1 %}
-            <div class="sport width1">
-            {% elif length == 2 %}
-            <div class="sport width2">
-            {% else %}
-            <div class="sport width3">
-            {% endif %}
-                <a href="/team/{{team.id}}">
+                {% for team in teams %}
+                    {%if length == 1 %}
+                        <div class="sport width1">
+                    {% elif length == 2 %}
+                        <div class="sport width2">
+                    {% else %}
+                        <div class="sport width3">
+                    {% endif %}
+                    <a href="/team/{{team.id}}">
 					<div id="soccer">
                         <h3>{{team.name}}</h3>
                         <img src="{{team.picture}}"/>
@@ -66,40 +55,12 @@
                         <p class="upcoming">No Upcoming Games</p>
                         {% endif %}
 					</div>
-				</a>
-            </div>
-            {% endfor %}
+                    </a>
+                </div>
+                {% endfor %}
             {% endif %}
-
-		<!-- 	<div class="player">
-				<h3>John Doe</h3>
-				<img src="player1.png"/>
-				<p>Male</p>
-				<p id="team">Teams:</p>
-				<div class="teams">
-					<p>Soccer</p>
-					<p class="score">0 - 0 - 0</p>
-					<p class="wlt">W - L - T</p>
-				</div>
-				<div class="teams">
-					<p>Broomball</p>
-					<p class="score">0 - 0 - 0</p>
-					<p class="wlt">W - L - T</p>
-				</div>
-				<div class="upcoming">
-					<p>Soccer</p>
-					<p>4:00 PM</p>
-					<p>Saturday, January 12th</p>
-				</div>
-				<div class="upcoming">
-					<p>Broomball</p>
-					<p>8:30 PM</p>
-					<p>Sunday, January 13th</p>
-				</div>
-			</div> -->
-
             <div id="footer">
-                <p>Created by Tal Cohen | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
+                <p>Created by Tal Cohen (tcohen@csh.rit.edu) | View on <a href="https://github.com/TalCohen/CSHSports" id="git" target=_blank>GitHub</a></p>
             </div>
 			<div id="format">
 			</div>
