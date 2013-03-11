@@ -31,8 +31,10 @@ def getName(soup):
     """
     Gets the CSH team's name given the page to navigate to.
     """
-    div = soup.find(id="ctl00_ContentPlaceHolder2_upgamestatus") #sets div to the div where the name is locatd
-    return div.find_all("td")[2].get_text().strip().split(",")[0] #returns the name from the div
+    div = soup.find(id="ctl00_ContentPlaceHolder2_upgamestatus") #sets div to the div where the name is located
+    if div:
+        return div.find_all("td")[2].get_text().strip().split(",")[0] #returns the name from the div
+    return None
 
 def getPicture(string):
     """
@@ -158,7 +160,7 @@ def getMatchups(soup, _cshTeam, url):
                     matchup = Matchup(csh=cshTeam, enemy=enemyTeam,cshScore=None, enemyScore=None, upcoming=_upcoming, date=_date)
                     matchup.save()
     for match in matchList:
-        match.delete()
+        match.enemy.delete()
     cshTeam.wins = _csh_wins
     cshTeam.losses = _csh_losses
     cshTeam.ties = _csh_ties
@@ -223,6 +225,17 @@ def getRoster(soup, url):
             player.save()
         counter += 2
 
+def noTeam(url):
+    try:
+        oldTeam = Team.objects.get(link=url)
+    except:
+        oldTeam = None
+    if oldTeam:
+        matches = oldTeam.CSH.all()
+        for match in matches:
+            match.enemy.delete()
+        oldTeam.delete()
+
 def getData(url):
     """
     Parses through all of the pages to get the data to make the objects and
@@ -233,9 +246,13 @@ def getData(url):
     html = br.response().read()
     soup = BeautifulSoup(html)
     _cshTeam = getName(soup)
-    print("Currently updating for CSH team:", _cshTeam)
-    getMatchups(soup, _cshTeam, url)
-    getRoster(soup, url)
+    if _cshTeam:
+        print("Currently updating for CSH team:", _cshTeam)
+        getMatchups(soup, _cshTeam, url)
+        getRoster(soup, url)
+    else:
+        print("Currently deleting CSH team")
+        noTeam(url)
 
 def update():
     """
