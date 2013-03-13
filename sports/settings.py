@@ -1,6 +1,6 @@
 # Django settings for CSHSports project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

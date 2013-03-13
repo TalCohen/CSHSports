@@ -4,8 +4,9 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import Http404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 import time
-from datetime import date
+from datetime import date, datetime
 import sha
 import parse
 
@@ -69,7 +70,8 @@ def teamdetails(request, team_id):
     and roster
     """
     t = get_object_or_404(Team, pk=team_id)
-    matchupList = t.CSH.all() 
+    unsortedMatchupList = list(t.CSH.all())
+    matchupList = sorted(unsortedMatchupList, key=lambda m: m.date)
     playerList = t.player_set.all()
     playerList = list(playerList)
     for player in playerList:
@@ -87,17 +89,18 @@ def matchups(request, team_id):
     Gets the information to populate each team's schedule
     """
     t = get_object_or_404(Team, pk=team_id)
-    matchupList = t.CSH.all()
+    unsortedMatchupList = list(t.CSH.all())
+    matchupList = sorted(unsortedMatchupList, key=lambda m: m.date)
     teams = Team.objects.filter(iscsh=True).filter(season=Season.objects.get(pk=1).season)
-    infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].date.split(" ")[3], 'teamList': teams}
+    infoDict = {'team': t, 'matchups': matchupList, 'matchupnext':getUpcoming(matchupList), 'year': matchupList[0].clean_date.split(" ")[3], 'teamList': teams}
     return render_to_response('CSHSports/matchups.html', infoDict, context_instance=RequestContext(request))
 
 def getUpcoming(matchupList):
     """
     Gets the next upcoming game, given a list of matchups
     """
-    timeSet = [(time.strptime(match.date,"%a, %b %d %Y"), match) for match in matchupList]
-    timeToday = time.strptime(str(date.today().day) + " " + str(date.today().month) + " " + str(date.today().year), "%d %m %Y")
+    timeSet = [(match.date, match) for match in matchupList]
+    timeToday = timezone.make_aware(datetime.now(), timezone.get_default_timezone())
     for dates in timeSet:
         if dates[0] >= timeToday:
             return dates[1]

@@ -45,10 +45,10 @@
                         <h3>{{team.name}}</h3>
                         <img src="{{team.picture}}"/>
                         <p class="score">{{team.sport}}</p>
-                        <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.wins}}</p>
+                        <p class="wlt">{{team.wins}} - {{team.losses}} - {{team.ties}}</p>
                         <p class="next">Next Game:</p>
                         {% if team.nextGame %}
-                        <p class="upcoming">{{team.nextGame.date}}</p>
+                        <p class="upcoming">{{team.nextGame.clean_date}}</p>
                         <p class="upcoming">{{team.nextGame.upcoming}}</p>
                         {% else %}
                         <p class="upcoming"><br></p>

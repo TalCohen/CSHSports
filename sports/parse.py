@@ -4,6 +4,7 @@ import mechanize
 import re
 from bs4 import BeautifulSoup
 from models import Team, Player, Matchup, Authenticate, Season
+from datetime import datetime
 
 def mechrequest():
     """
@@ -82,12 +83,12 @@ def getMatchups(soup, _cshTeam, url):
         endofyear = False
         for i in range(len(teams)//2):
             match = teams[counter].find_all("td")
-            _date = match[0].get_text() + " " + year
-            if _date.split(" ")[1] == "Dec":
+            _clean_date = match[0].get_text() + " " + year
+            if _clean_date.split(" ")[1] == "Dec":
                 endofyear = True
-            if endofyear == True and _date.split(" ")[1] != "Dec":
-                newyear = str(int(_date.split(" ")[3])+1)
-                _date = match[0].get_text() + " " + newyear
+            if endofyear == True and _clean_date.split(" ")[1] != "Dec":
+                newyear = str(int(_clean_date.split(" ")[3])+1)
+                _clean_date = match[0].get_text() + " " + newyear
             opponent = match[1].get_text().split("  ")
             _enemyTeam = opponent[1]
             loc = opponent[0] #gets whether it is VS or @
@@ -97,7 +98,7 @@ def getMatchups(soup, _cshTeam, url):
                 _outcome = None
                 _upcoming = match[2].get_text()
             else:
-                if (loc == "VS"):
+                if (loc == "V_S"):
                     _cshScore = result[1]
                     _enemyScore = result[3]
                 else:
@@ -119,6 +120,8 @@ def getMatchups(soup, _cshTeam, url):
                 _csh_losses += 1
             elif (_outcome == "T"):
                 _csh_ties += 1
+            _date = datetime.strptime(_clean_date,"%a, %b %d %Y")
+            print(_date)
             counter += 2
             try:
                 enemyTeam = Team.objects.get(link=enemyUrl)
@@ -134,12 +137,10 @@ def getMatchups(soup, _cshTeam, url):
             else:
                 enemyTeam = Team(link=enemyUrl, sport=_sport, name=_enemyTeam, wins=_wins, losses=_losses, ties=_ties, picture=_picture, rank=getRank(soup, _enemyTeam, _wins, _losses, _ties), iscsh=False, season=Season.objects.all()[0].season)
                 enemyTeam.save()
-            oldmatch = cshTeam.CSH.filter(enemy = enemyTeam)
-            happened = None
-            if len(oldmatch) != 0:
-                for game in oldmatch:
-                    if game.date == _date:
-                        happened = game
+            try:
+                happened = cshTeam.CSH.filter(enemy = enemyTeam).filter(date = _date)[0]
+            except:
+                happened = None
             if happened: #if matchup made
                 if _outcome: #if game happened
                     happened.cshScore = _cshScore
@@ -148,17 +149,20 @@ def getMatchups(soup, _cshTeam, url):
                     happened.save()
                 else:
                     happened.upcoming = _upcoming
+                    happened.clean_date = _clean_date
                     happened.date = _date
                     happened.save()
-                if happened in matchList:
+                if happened in matchList:               
                     matchList.remove(happened)
             else:
                 if _outcome:
-                    matchup = Matchup(csh=cshTeam, enemy=enemyTeam, cshScore=_cshScore, enemyScore=_enemyScore, outcome=_outcome, date=_date)
+                    matchup = Matchup(csh=cshTeam, enemy=enemyTeam, cshScore=_cshScore, enemyScore=_enemyScore, outcome=_outcome, clean_date=_clean_date, date=_date)
                     matchup.save()
                 else:
-                    matchup = Matchup(csh=cshTeam, enemy=enemyTeam,cshScore=None, enemyScore=None, upcoming=_upcoming, date=_date)
+                    matchup = Matchup(csh=cshTeam, enemy=enemyTeam, cshScore=None, enemyScore=None, upcoming=_upcoming, clean_date=_clean_date, date=_date)
                     matchup.save()
+                if matchup in matchList:
+                    matchList.remove(matchup)
     for match in matchList:
         match.enemy.delete()
     cshTeam.wins = _csh_wins
@@ -225,7 +229,7 @@ def getRoster(soup, url):
             player.save()
         counter += 2
 
-def noTeam(url):
+def deleteTeam(url):
     try:
         oldTeam = Team.objects.get(link=url)
     except:
@@ -246,13 +250,9 @@ def getData(url):
     html = br.response().read()
     soup = BeautifulSoup(html)
     _cshTeam = getName(soup)
-    if _cshTeam:
-        print("Currently updating for CSH team:", _cshTeam)
-        getMatchups(soup, _cshTeam, url)
-        getRoster(soup, url)
-    else:
-        print("Currently deleting CSH team")
-        noTeam(url)
+    print("Currently updating for CSH team:", _cshTeam)
+    getMatchups(soup, _cshTeam, url)
+    getRoster(soup, url)
 
 def update():
     """

@@ -8,7 +8,6 @@
 # into your database.
 
 from django.db import models
-import datetime
 
 class Team(models.Model):
     link = models.CharField(max_length=200)
@@ -37,7 +36,12 @@ class Matchup(models.Model):
     enemyScore = models.IntegerField(null=True, blank=True)
     upcoming = models.CharField(max_length=50, default='')
     outcome = models.CharField(max_length=1, default='')
-    date = models.CharField(max_length=50)
+    date = models.DateTimeField()
+    clean_date = models.CharField(max_length=50)
+
+    def __eq__(self, oMatchup):
+        return self.csh==oMatchup.csh and self.enemy == oMatchup.enemy and self.clean_date == oMatchup.clean_date
+
 
 class Authenticate(models.Model):
     username = models.CharField(max_length=50)

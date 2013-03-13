@@ -33,7 +33,7 @@
                     <a href="/team/{{team.id}}/schedule">
                         <p class="next">Next Game:</p>
                         {% if matchup %}
-                        <p class="upcoming">{{matchup.date}}</p>
+                        <p class="upcoming">{{matchup.clean_date}}</p>
                         <p class="upcoming">{{matchup.upcoming}}</p>
                         {% else %}
                         <p class="upcoming"><br></p>
