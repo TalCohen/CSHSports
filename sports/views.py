@@ -6,7 +6,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import sha
 import parse
 
@@ -100,9 +100,9 @@ def getUpcoming(matchupList):
     Gets the next upcoming game, given a list of matchups
     """
     timeSet = [(match.date, match) for match in matchupList]
-    timeToday = timezone.make_aware(datetime.now(), timezone.get_default_timezone())
+    timeToday = (timezone.make_aware(datetime.now(), timezone.get_default_timezone())) - timedelta(days=1)
     for dates in timeSet:
-        if dates[0] >= timeToday:
+        if dates[0] >= timeToday and len(dates[1].outcome) == 0:
             return dates[1]
     return None
 
