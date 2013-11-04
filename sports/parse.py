@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from models import Team, Player, Matchup, Authenticate, Season
 from datetime import datetime
 
+
 def mechrequest():
     """
     Logs into imleagues with the appropriate username and password and returns
@@ -19,13 +20,13 @@ def mechrequest():
     response = br.response().read()
     br.select_form(nr=0) 
     br.set_all_readonly(False)
-    mnext = re.search("""<a id="ctl00_ContentPlaceHolder1_btnLogin" tabindex="4" class="login" href="javascript:__doPostBack\('(.*?)','(.*?)'\)" style""", response)
+    #mnext = re.search("""<a id="ctl00_ContentPlaceHolder1_btnLogin" tabindex="4" class="login" href="javascript:__doPostBack\('(.*?)','(.*?)'\)" style""", response)
     user = Authenticate.objects.all()[0]
     br.form["ctl00$ContentPlaceHolder1$inUserName"] = user.imusername
     br.form["ctl00$ContentPlaceHolder1$inPassword"] = user.impassword
-    br["__EVENTTARGET"] = mnext.group(1)
-    br["__EVENTARGUMENT"] = mnext.group(2)
-    br.submit()
+    #br["__EVENTTARGET"] = mnext.group(1)
+    #br["__EVENTARGUMENT"] = mnext.group(2)
+    br.submit(name="ctl00$ContentPlaceHolder1$btnLogin")
     return br #Returns the browser that has logged in
 
 def getName(soup):
@@ -56,10 +57,13 @@ def getMatchups(soup, _cshTeam, url):
     _csh_wins = 0
     _csh_losses = 0
     _csh_ties = 0
-    sportContent = soup.find_all("div", { "class" : "popover-content" })[0]
-    li = sportContent.find_all("li")[2]
-    _sport = li.find_next("a").get_text()
-    header = soup.find(id="ctl00_ucSiteHeader_divHeaderBox")
+    #sportContent = soup.find_all("div", { "class" : "popover-content" })[0]
+    #li = sportContent.find_all("li")[2]
+    #_sport = li.find_next("a").get_text()
+    title = soup.title.string
+    _sport = title.split("/")[1]
+    #header = soup.find(id="ctl00_ucSiteHeader_divHeaderBox")
+    header = soup.find("a", { "class" : "school-logo" })
     csh_picture = header.find_next("img").get("src")
     try:
         cshTeam = Team.objects.get(link=url)
@@ -93,12 +97,16 @@ def getMatchups(soup, _cshTeam, url):
             _enemyTeam = opponent[1]
             loc = opponent[0] #gets whether it is VS or @
             result = match[2].get_text().split()
+            print(result)
             _outcome = result[0] #gets whether it was a W or L or T
             if (_outcome != "W") and (_outcome != "L") and (_outcome != "T"): #if matchup hasn't happened yet
                 _outcome = None
                 _upcoming = match[2].get_text()
+            elif (len(result) < 4):
+                _outcome = None
+                _upcoming = "Awaiting Scores..."
             else:
-                if (loc == "V_S"):
+                if (loc == "VS"):
                     _cshScore = result[1]
                     _enemyScore = result[3]
                 else:
@@ -175,12 +183,13 @@ def getRank(soup, name, wins, losses, ties):
     """
     Gets the team's current standing in their league.
     """
-    standings = soup.find("div", { "class" : "right_box_content" }).find_all("tr")[1:]
+    standings = soup.find("table", { "class" : "table table-striped table-condensed" }).find_all("tr")[1:]
     rank = 1
     for standingteam in standings:
         standingname = standingteam.find_all("td")[0].get_text().strip()
         standingscore = standingteam.find_all("td")[1].get_text()
-        if standingname == name and standingscore == str(wins) + "-" + str(losses) + "-" + str(ties):
+        #if standingname == name and standingscore == str(wins) + "-" + str(losses) + "-" + str(ties):
+        if standingname == name:
             return rank
         rank += 1
     return None
@@ -189,11 +198,13 @@ def getRoster(soup, url):
     """
     Gets the data for each player and stores the objects made in the database.
     """
-    mydivs = soup.find_all("div", { "class" : "popover-content" })[1] #Sets mydivs to the div containing the roster
-    link = mydivs.find_next("a").get("href")
-    rosterLink = "https://www.imleagues.com/School/Team/" + link
+    #mydivs = soup.find_all("div", { "class" : "popover-content" })[1] #Sets mydivs to the div containing the roster
+    link_li = soup.find(id="ctl00_ucSiteHeader_liTeamRoster")
+    #link = mydivs.find_next("a").get("href")
+    link = link_li.find_next("a").get("href")
+    #rosterLink = "https://www.imleagues.com/School/Team/" + link
     br = mechrequest()
-    br.open(rosterLink)
+    br.open(link)
     html = br.response().read()
     soup = BeautifulSoup(html)
     _team = Team.objects.get(link=url)
@@ -201,16 +212,17 @@ def getRoster(soup, url):
     roster = overall.find_all("tr")
     players = roster[2:(len(roster)-1)]
     counter = 0
-    for i in range(len(players)//2):
+    for i in range((len(players)+1)//3):
         _player = players[counter]
         _picture = _player.find_next("img").get("src")
         _link = _player.find_next("a").get("href")
-        bio = _player.find_all("td")[2]
+        bio = _player.find_all("td")[1]
         _name = bio.find_all("div")[0].get_text().title()
         _gender = bio.find_all("div")[1].get_text().split(" ")[1]
         status = _player.find_all("td")[3]
-        capt = status.find_all("div")[0].get_text()
-        if capt != "Member":
+        capt = status.find_next("button").get_text()
+        #capt = status.find_all("div")[1].get_text()
+        if capt == "Captain" or capt == "Co-Captain":
             _iscaptain = True
         else:
             _iscaptain = False
@@ -220,6 +232,7 @@ def getRoster(soup, url):
             oldPlayer = None
         if oldPlayer:
             oldPlayer.picture = _picture
+            oldPlayer.iscaptain = _iscaptain
             oldPlayer.team.add(_team)
             oldPlayer.save()
         else:
@@ -227,7 +240,7 @@ def getRoster(soup, url):
             player.save()
             player.team.add(_team)
             player.save()
-        counter += 2
+        counter += 3
 
 def deleteTeam(url):
     try:

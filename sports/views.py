@@ -160,9 +160,13 @@ def maketeams(request):
     """
     Actually adds the team that was requested by the addteams page
     """
+    #fh = open("log.txt")
+    #fh.write("I got to step 1 \n")
     if auth(request):
         parse.getData(request.POST['url']) # Sanitize your inputs
+        #fh.write("I got to step 2 \n")
         t = Team.objects.get(link=request.POST['url'])
+        #fh.write("I got to step 3 \n")
         return redirect('/admin/')
     else:
         return redirect('/login/')
